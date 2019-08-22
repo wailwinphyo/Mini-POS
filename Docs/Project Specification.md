@@ -20,6 +20,6 @@
 
 9. Sale report by Cashier by Date interval, for example How many item are sold and their total price amount within Jan 1 and Feb 2.
 
-10.Monthly total sale report for a shop.
+10. Monthly total sale report for a shop.
 
 Code should be separated into 3 layer , UI, business and DAO. Sample layering can be checked in SwingJDBC project in GitHub.
