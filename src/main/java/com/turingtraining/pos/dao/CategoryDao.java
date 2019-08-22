@@ -5,9 +5,14 @@
  */
 package com.turingtraining.pos.dao;
 
+import com.turingtraining.pos.dao.model.Category;
+import java.util.List;
+
 /**
  *
- * @author DELL
+ * @author wailwinphyo
  */
-public interface UserDao {
+public interface CategoryDao {
+    public void insertCategory(Category cat);
+    public List<Category> getCategoryList();
 }

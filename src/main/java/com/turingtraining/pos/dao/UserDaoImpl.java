@@ -9,6 +9,5 @@ package com.turingtraining.pos.dao;
  *
  * @author DELL
  */
-public class UserDaoImpl implements UserDao{
-    
+public class UserDaoImpl implements UserDao {
 }

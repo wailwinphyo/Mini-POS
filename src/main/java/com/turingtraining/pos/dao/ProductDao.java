@@ -5,9 +5,16 @@
  */
 package com.turingtraining.pos.dao;
 
+import com.turingtraining.pos.dao.model.Product;
+import java.util.List;
+
 /**
  *
- * @author DELL
+ * @author wailwinphyo
  */
-public interface UserDao {
+public interface ProductDao {
+
+    List<Product> getProductListByCatId(int catId);
+    void insertProduct(Product p);
+    
 }
