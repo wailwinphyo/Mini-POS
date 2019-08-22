@@ -11,6 +11,7 @@
 7. Stock refill. (Will refill stock based on the purchase of item) Need to keep track which items are purchased and refill and their quantity. After refill, item quantity will be update.
 8. Report to check item and their quantity in stock.
 9. Sale report by Cashier by Date interval, for example How many item are sold and their total price amount within Jan 1 and Feb 2.
-10.Monthly total sale report for a shop.
+
+10. Monthly total sale report for a shop.
 
 Code should be separated into 3 layer , UI, business and DAO. Sample layering can be checked in SwingJDBC project in GitHub.
