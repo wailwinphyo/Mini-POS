@@ -1,5 +1,6 @@
 # Point of sale Project Specification
 
+## System Spec
 1. User registration with user type, Cashier, System Admin.
 2. User login.
 3. Item Category setup, For example, food, drink, medicine etc.
@@ -14,4 +15,7 @@
 
 10. Monthly total sale report for a shop.
 
-Code should be separated into 3 layer , UI, business and DAO. Sample layering can be checked in SwingJDBC project in GitHub.
+## Coding Spec
+Code should be separated into 3 layer , UI, business and DAO.
+Sample layering can be checked in SwingJDBC project in GitHub.
+
