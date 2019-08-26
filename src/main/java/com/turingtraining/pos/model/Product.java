@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.turingtraining.pos.dao.model;
+package com.turingtraining.pos.model;
 
 /**
  *
@@ -16,8 +16,13 @@ public class Product {
     private String name;
     private double price;
     private int quantity;
-    private long category_id;
+    private long categoryId;
+    private String categoryName;
 
+    public Product(){
+        
+    }
+    
     public Product(long id, String name, String code, double price, int quantity) {
         this.id = id;
         this.code = code;
@@ -26,11 +31,11 @@ public class Product {
         this.quantity = quantity;
     }
 
-    public Product(String name, String code, double price, long category_id){
+    public Product(String name, String code, double price, long categoryId){
         this.name = name;
         this.code = code;
         this.price = price;
-        this.category_id = category_id;
+        this.categoryId = categoryId;
     }
     
     public long getId() {
@@ -73,15 +78,24 @@ public class Product {
         this.quantity = quantity;
     }
 
-    public long getCategory_id() {
-        return category_id;
+    public long getCategoryId() {
+        return categoryId;
     }
 
-    public void setCategory_id(long category_id) {
-        this.category_id = category_id;
+    public void setCategoryId(long categoryId) {
+        this.categoryId = categoryId;
     }
+
+    public String getCategoryName() {
+        return categoryName;
+    }
+
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
+    }
+
     
-
+    
     @Override
     public String toString() {
         return "ID - " + id + " | name - " + name + " | code - " + code + " | price - " + price + " | quantity - " + quantity;

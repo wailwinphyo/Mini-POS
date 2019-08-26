@@ -5,17 +5,16 @@
  */
 package com.turingtraining.pos.service;
 
-import com.turingtraining.pos.model.Category;
+import com.turingtraining.pos.model.Product;
 import java.util.List;
 
 /**
  *
  * @author wailwinphyo
  */
-public interface CategoryService {
+public interface ProductService {
 
-    List<Category> getCategoryList();
-
-    void insertCategory(Category cat) throws Exception;
+    List<Product> getProductList();
+    void insertProduct(Product p);
     
 }

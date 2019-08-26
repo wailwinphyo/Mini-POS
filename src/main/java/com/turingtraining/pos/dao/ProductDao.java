@@ -5,7 +5,7 @@
  */
 package com.turingtraining.pos.dao;
 
-import com.turingtraining.pos.dao.model.Product;
+import com.turingtraining.pos.model.Product;
 import java.util.List;
 
 /**
@@ -14,7 +14,8 @@ import java.util.List;
  */
 public interface ProductDao {
 
-    List<Product> getProductListByCatId(int catId);
+    List<Product> getProductList();
     void insertProduct(Product p);
+    Product getProductDetail(Long pId);
     
 }

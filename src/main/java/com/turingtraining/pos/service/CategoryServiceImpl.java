@@ -7,7 +7,7 @@ package com.turingtraining.pos.service;
 
 import com.turingtraining.pos.dao.CategoryDao;
 import com.turingtraining.pos.dao.CategoryDaoImpl;
-import com.turingtraining.pos.dao.model.Category;
+import com.turingtraining.pos.model.Category;
 import java.util.List;
 
 
@@ -20,7 +20,7 @@ public class CategoryServiceImpl implements CategoryService {
     CategoryDao catDao = new CategoryDaoImpl();
     
     @Override
-    public void insertCategory(Category cat){
+    public void insertCategory(Category cat) throws Exception{
         catDao.insertCategory(cat);
     }
     
@@ -28,5 +28,7 @@ public class CategoryServiceImpl implements CategoryService {
     public List<Category> getCategoryList(){
         return catDao.getCategoryList();
     }
+    
+    
 
 }

@@ -5,7 +5,7 @@
  */
 package com.turingtraining.pos.dao;
 
-import com.turingtraining.pos.dao.model.Category;
+import com.turingtraining.pos.model.Category;
 import java.util.List;
 
 /**
@@ -13,6 +13,6 @@ import java.util.List;
  * @author wailwinphyo
  */
 public interface CategoryDao {
-    public void insertCategory(Category cat);
+    public void insertCategory(Category cat) throws Exception;
     public List<Category> getCategoryList();
 }

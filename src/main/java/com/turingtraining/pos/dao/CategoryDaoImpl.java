@@ -5,7 +5,7 @@
  */
 package com.turingtraining.pos.dao;
 
-import com.turingtraining.pos.dao.model.Category;
+import com.turingtraining.pos.model.Category;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -23,13 +23,15 @@ public class CategoryDaoImpl implements CategoryDao{
     DAO dao = DAO.getDAO();
     
     @Override
-    public void insertCategory(Category cat) {
+    public void insertCategory(Category cat) throws Exception{
         try {
-            PreparedStatement st = dao.createStatement("INSERT INTO categories(name) values (?)");
+            PreparedStatement st = dao.createStatement("INSERT INTO categories(name, description) values (?, ?)");
             st.setString(1, cat.getName());
+            st.setString(2, cat.getDescription());
             st.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(CategoryDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+            throw ex;
         }
     }
 
@@ -37,12 +39,13 @@ public class CategoryDaoImpl implements CategoryDao{
     public List<Category> getCategoryList() {
         List<Category> catList = new ArrayList<>();
         try {
-            PreparedStatement st = dao.createStatement("Select id, name from categories");
+            PreparedStatement st = dao.createStatement("Select id, name, description from categories");
             ResultSet rs = st.executeQuery();
             while(rs.next()){
                 Long id = rs.getLong("id");
                 String name = rs.getString("name");
-                Category cat = new Category(id, name);
+                String desc = rs.getString("description");
+                Category cat = new Category(id, name, desc);
                 catList.add(cat);
             }
         } catch (SQLException ex) {
@@ -54,7 +57,7 @@ public class CategoryDaoImpl implements CategoryDao{
     public static void main(String [] args) {
         CategoryDao dao = new CategoryDaoImpl();
 //        Category cat = new Category("Book");
-//        dao.insertCategory(cat);
+//        dao.insertCateg   ory(cat);
         
         List<Category> catList = dao.getCategoryList();
         catList.forEach(System.out::println);
