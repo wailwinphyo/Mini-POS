@@ -3,10 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.turingtraining.pos.service;
+package com.turingtraining.pos.service.ui;
 
 import com.turingtraining.pos.dao.model.User;
 import com.turingtraining.pos.exception.UserNotFoundException;
+import com.turingtraining.pos.service.UserService;
+import com.turingtraining.pos.service.UserServiceImpl;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
