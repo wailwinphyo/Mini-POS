@@ -9,9 +9,9 @@ package com.turingtraining.pos.exception;
  *
  * @author DELL
  */
-public class UserNotFoundException extends Exception{
+public class UserException extends Exception{
 
-    public UserNotFoundException(String msg) {
+    public UserException(String msg) {
         super(msg);
     }
 
