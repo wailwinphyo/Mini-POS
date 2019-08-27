@@ -2,17 +2,23 @@
 
 ## Tables
 
-- Users
-- Roles
-- Products
-- Categories
-- Stocks
-- Vouchers
+1. users
+2. user_types <-[rename]- usertypes
+3. items <-[rename]- products
+4. categories
+5. stock_transactions
+    - Columns
+        - id
+        - quantity ( positive value for added stock and negative value for purchased stock )
+        - price
+        - item_id
+        - transaction_date
 
 ## Reports
-- Report to check item and their quantity in stock [ Stock report ]
-
-
+1. Report to check item and their quantity in stock [ Stock report ] 
+    - sum all quantity by item_id in stock_transactions table -> remaining stock
+2. Sale report by Cashier by Date interval
+3. Monthly total sale report for a shop
 
 
 ## Progress
@@ -35,7 +41,9 @@
         - [ ] Each sale voucher much contains item code, item name, quantity, price and date.
         - [ ] At the end of the voucher, total for all item must be included.
 
-- [ ] Stock refill. (Will refill stock based on the purchase of item) Need to keep track which items are purchased and refill and their                  quantity. After refill, item quantity will be update.
+- [ ] Stock refill. (Will refill stock based on the purchase of item) 
+        - [ ] Need to keep track which items are purchased and refill and their quantity.
+        - [ ] After refilled, item quantity will be update.
 
 - [ ] Report to check item and their quantity in stock.
 
