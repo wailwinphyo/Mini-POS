@@ -6,7 +6,7 @@
 package com.turingtraining.pos.service.ui;
 
 import com.turingtraining.pos.dao.model.User;
-import com.turingtraining.pos.exception.UserNotFoundException;
+import com.turingtraining.pos.exception.UserException;
 import com.turingtraining.pos.service.UserService;
 import com.turingtraining.pos.service.UserServiceImpl;
 import java.util.logging.Level;
@@ -22,9 +22,8 @@ public class UserLoginPage extends javax.swing.JFrame {
     /**
      * Creates new form UserLoginPage
      */
-    
     UserService userSvc = new UserServiceImpl();
-    
+
     public UserLoginPage() {
         initComponents();
     }
@@ -165,15 +164,16 @@ public class UserLoginPage extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        try{
+        try {
             String name = this.jtfUsername.getText().trim();
             char[] password = this.jpfPassword.getPassword();
             User u = new User(name, new String(password));
             userSvc.userLogin(u);
-            JOptionPane.showMessageDialog(this, "Success !", "User Login", JOptionPane.INFORMATION_MESSAGE);
-        }catch(UserNotFoundException ex){
+            this.dispose();
+            new UserRegistrationPage().setVisible(true);
+        } catch (UserException ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage(), "User Login", JOptionPane.ERROR_MESSAGE);
-        }catch(Exception ex){
+        } catch (Exception ex) {
             Logger.getLogger(UserLoginPage.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(this, "Failed to login", "User Login", JOptionPane.ERROR_MESSAGE);
         }
@@ -208,6 +208,7 @@ public class UserLoginPage extends javax.swing.JFrame {
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
                 new UserLoginPage().setVisible(true);
             }

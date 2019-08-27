@@ -6,6 +6,8 @@
 package com.turingtraining.pos.dao;
 
 import com.turingtraining.pos.dao.model.User;
+import com.turingtraining.pos.dao.model.UserType;
+import java.util.List;
 
 /**
  *
@@ -13,4 +15,7 @@ import com.turingtraining.pos.dao.model.User;
  */
 public interface UserDao{
     void userLogin(User u) throws Exception;
+    void registerUser(User u) throws Exception;
+
+    public List<UserType> getUserTypes();
 }

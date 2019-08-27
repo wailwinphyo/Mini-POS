@@ -10,12 +10,20 @@ package com.turingtraining.pos.dao.model;
  * @author DELL
  */
 public class User {
+
     private String username;
     private String password;
+    private Long usertype_id;
 
     public User(String username, String password) {
         this.username = username;
         this.password = password;
+    }
+
+    public User(String username, String password, Long usertype_id) {
+        this.username = username;
+        this.password = password;
+        this.usertype_id = usertype_id;
     }
 
     public String getUsername() {
@@ -33,5 +41,12 @@ public class User {
     public void setPassword(String password) {
         this.password = password;
     }
-    
+
+    public Long getUsertype_id() {
+        return usertype_id;
+    }
+
+    public void setUsertype_id(Long usertype_id) {
+        this.usertype_id = usertype_id;
+    }
 }

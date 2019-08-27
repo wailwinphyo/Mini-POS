@@ -17,7 +17,7 @@
 
 ## Progress
 
-- [ ] User registration with user type, Cashier, System Admin.
+- [x] User registration with user type, Cashier, System Admin.
 
 - [x] User login.
 

@@ -8,6 +8,8 @@ package com.turingtraining.pos.service;
 import com.turingtraining.pos.dao.UserDao;
 import com.turingtraining.pos.dao.UserDaoImpl;
 import com.turingtraining.pos.dao.model.User;
+import com.turingtraining.pos.dao.model.UserType;
+import java.util.List;
 
 /**
  *
@@ -20,6 +22,16 @@ public class UserServiceImpl implements UserService {
     @Override
     public void userLogin(User u) throws Exception {
         userDao.userLogin(u);
+    }
+
+    @Override
+    public void registerUser(User u) throws Exception{
+        userDao.registerUser(u);
+    }
+
+    @Override
+    public List<UserType> getUserTypes() {
+        return userDao.getUserTypes();
     }
 
 }
