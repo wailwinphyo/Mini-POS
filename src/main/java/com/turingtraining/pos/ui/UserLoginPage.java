@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.turingtraining.pos.service.ui;
+package com.turingtraining.pos.ui;
 
-import com.turingtraining.pos.dao.model.User;
+import com.turingtraining.pos.model.User;
 import com.turingtraining.pos.exception.UserException;
 import com.turingtraining.pos.service.UserService;
 import com.turingtraining.pos.service.UserServiceImpl;
@@ -169,8 +169,8 @@ public class UserLoginPage extends javax.swing.JFrame {
             char[] password = this.jpfPassword.getPassword();
             User u = new User(name, new String(password));
             userSvc.userLogin(u);
+            new ItemPage().setVisible(true);
             this.dispose();
-            new UserRegistrationPage().setVisible(true);
         } catch (UserException ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage(), "User Login", JOptionPane.ERROR_MESSAGE);
         } catch (Exception ex) {

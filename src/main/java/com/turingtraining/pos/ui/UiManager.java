@@ -12,8 +12,8 @@ import javax.swing.JFrame;
  * @author wailwinphyo
  */
 public class UiManager {
-    public void addProduct(JFrame obj){
-        new ProductPage().setVisible(true);
+    public void addItem(JFrame obj){
+        new ItemPage().setVisible(true);
         obj.dispose();
     }
     

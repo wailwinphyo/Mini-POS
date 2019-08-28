@@ -6,31 +6,32 @@
 package com.turingtraining.pos.ui;
 
 import com.turingtraining.pos.model.Category;
-import com.turingtraining.pos.model.Product;
+import com.turingtraining.pos.model.Item;
 import com.turingtraining.pos.service.CategoryService;
 import com.turingtraining.pos.service.CategoryServiceImpl;
-import com.turingtraining.pos.service.ProductService;
-import com.turingtraining.pos.service.ProductServiceImpl;
+import com.turingtraining.pos.service.ItemServiceImpl;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import com.turingtraining.pos.service.ItemService;
 
 /**
  *
  * @author wailwinphyo
  */
-public class ProductPage extends javax.swing.JFrame {
+public class ItemPage extends javax.swing.JFrame {
 
     /**
-     * Creates new form AddProduct
+     * Creates new form AddItem
      */
     CategoryService catService = new CategoryServiceImpl();
-    ProductService productService = new ProductServiceImpl();
+    ItemService itemService = new ItemServiceImpl();
     UiManager ui = new UiManager();
-    public ProductPage() {
+
+    public ItemPage() {
         initComponents();
         loadData();
     }
@@ -40,13 +41,13 @@ public class ProductPage extends javax.swing.JFrame {
         DefaultComboBoxModel model = (DefaultComboBoxModel) jcbCategory.getModel();
         catList.forEach(c -> model.addElement(c));
         jcbCategory.setModel(model);
-        List<Product> plist = productService.getProductList();
-        DefaultTableModel pModel = (DefaultTableModel) this.jtProducts.getModel();
-        plist.forEach(c -> {
+        List<Item> itemlist = itemService.geItemList();
+        DefaultTableModel pModel = (DefaultTableModel) this.jtItems.getModel();
+        itemlist.forEach(c -> {
             Object[] obj = {c.getId(), c.getName(), c.getCode(), c.getPrice(), c.getQuantity(), c.getCategoryName()};
             pModel.addRow(obj);
         });
-        this.jtProducts.setModel(pModel);
+        this.jtItems.setModel(pModel);
     }
 
     /**
@@ -72,7 +73,7 @@ public class ProductPage extends javax.swing.JFrame {
         jbnCancel = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jtProducts = new javax.swing.JTable();
+        jtItems = new javax.swing.JTable();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jmiExit = new javax.swing.JMenuItem();
@@ -86,7 +87,6 @@ public class ProductPage extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Mini POS");
-        setPreferredSize(new java.awt.Dimension(800, 370));
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosed(java.awt.event.WindowEvent evt) {
                 formWindowClosed(evt);
@@ -196,9 +196,9 @@ public class ProductPage extends javax.swing.JFrame {
                 .addGap(34, 34, 34))
         );
 
-        jTabbedPane1.addTab("Add Product", jPanel1);
+        jTabbedPane1.addTab("Add Item", jPanel1);
 
-        jtProducts.setModel(new javax.swing.table.DefaultTableModel(
+        jtItems.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -221,8 +221,8 @@ public class ProductPage extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jtProducts.getTableHeader().setReorderingAllowed(false);
-        jScrollPane1.setViewportView(jtProducts);
+        jtItems.getTableHeader().setReorderingAllowed(false);
+        jScrollPane1.setViewportView(jtItems);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -237,7 +237,7 @@ public class ProductPage extends javax.swing.JFrame {
                 .addGap(0, 14, Short.MAX_VALUE))
         );
 
-        jTabbedPane1.addTab("Product List", jPanel2);
+        jTabbedPane1.addTab("Iem List", jPanel2);
 
         jMenu1.setText("File");
         jMenu1.setMargin(new java.awt.Insets(3, 6, 3, 3));
@@ -255,9 +255,9 @@ public class ProductPage extends javax.swing.JFrame {
         jMenu2.setText("System Management");
         jMenu2.setMargin(new java.awt.Insets(3, 6, 3, 3));
 
-        jMenu3.setText("Product");
+        jMenu3.setText("Item");
 
-        jMenuItem2.setText("Add Product");
+        jMenuItem2.setText("Add Item");
         jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem2ActionPerformed(evt);
@@ -265,7 +265,7 @@ public class ProductPage extends javax.swing.JFrame {
         });
         jMenu3.add(jMenuItem2);
 
-        jMenuItem3.setText("All Product List");
+        jMenuItem3.setText("All Item List");
         jMenu3.add(jMenuItem3);
 
         jMenu2.add(jMenu3);
@@ -346,20 +346,20 @@ public class ProductPage extends javax.swing.JFrame {
             String code = this.jtfCode.getText();
             Double price = Double.parseDouble(this.jtfPrice.getText());
             Category cat = (Category) this.jcbCategory.getSelectedItem();
-            Product p = new Product(name, code, price, cat.getId());
-            productService.insertProduct(p);
-            msg = "Success! Added Product! \n Add more Product ?";
+            Item p = new Item(null, name, code, price, 0, cat.getId());
+            itemService.insertItem(p);
+            msg = "Success! Item Added! \n Add more Item ?";
         } catch (NumberFormatException e) {
-            msg = "Failed to add Product! \n Add Product again?";
-            Logger.getLogger(Product.class.getName()).log(Level.SEVERE, null, e);
+            msg = "Failed to add Item! \n Add Item again?";
+            Logger.getLogger(Item.class.getName()).log(Level.SEVERE, null, e);
         }
-        int opt = JOptionPane.showConfirmDialog(this, msg, "Product Insertion", JOptionPane.YES_NO_OPTION);
-        if(opt == JOptionPane.YES_OPTION){
+        int opt = JOptionPane.showConfirmDialog(this, msg, "Item Insertion", JOptionPane.YES_NO_OPTION);
+        if (opt == JOptionPane.YES_OPTION) {
             this.jtfName.setText("");
             this.jtfCode.setText("");
             this.jtfPrice.setText("");
             this.jcbCategory.setSelectedIndex(0);
-        }else{
+        } else {
             ui.returnHome(this);
         }
     }//GEN-LAST:event_jbnAddActionPerformed
@@ -369,7 +369,7 @@ public class ProductPage extends javax.swing.JFrame {
     }//GEN-LAST:event_jmiExitActionPerformed
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
-        ui.addProduct(this);
+        ui.addItem(this);
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void jMIAddCategoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMIAddCategoryActionPerformed
@@ -397,21 +397,23 @@ public class ProductPage extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Product.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Item.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Product.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Item.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Product.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Item.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Product.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Item.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ProductPage().setVisible(true);
+                new ItemPage().setVisible(true);
             }
         });
     }
@@ -438,7 +440,7 @@ public class ProductPage extends javax.swing.JFrame {
     private javax.swing.JButton jbnCancel;
     private javax.swing.JComboBox<Category> jcbCategory;
     private javax.swing.JMenuItem jmiExit;
-    private javax.swing.JTable jtProducts;
+    private javax.swing.JTable jtItems;
     private javax.swing.JTextField jtfCode;
     private javax.swing.JTextField jtfName;
     private javax.swing.JTextField jtfPrice;

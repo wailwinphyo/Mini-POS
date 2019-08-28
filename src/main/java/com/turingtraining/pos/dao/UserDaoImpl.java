@@ -5,8 +5,8 @@
  */
 package com.turingtraining.pos.dao;
 
-import com.turingtraining.pos.dao.model.User;
-import com.turingtraining.pos.dao.model.UserType;
+import com.turingtraining.pos.model.User;
+import com.turingtraining.pos.model.UserType;
 import com.turingtraining.pos.exception.UserException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

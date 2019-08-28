@@ -5,12 +5,12 @@
  */
 package com.turingtraining.pos.ui;
 
-import com.turingtraining.pos.model.Product;
-import com.turingtraining.pos.service.ProductService;
-import com.turingtraining.pos.service.ProductServiceImpl;
+import com.turingtraining.pos.model.Item;
+import com.turingtraining.pos.service.ItemServiceImpl;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
 import com.turingtraining.pos.model.Category;
+import com.turingtraining.pos.service.ItemService;
 
 /**
  *
@@ -21,16 +21,16 @@ public class HomePage extends javax.swing.JFrame {
     /**
      * Creates new form Home
      */
-    ProductService productSvc = new ProductServiceImpl();
+    ItemService itemSvc = new ItemServiceImpl();
     UiManager ui = new UiManager();
 
     public HomePage() {
         initComponents();
-        loadProducts();
+        loadItems();
     }
 
-    private void loadProducts() {
-        List<Product> plist = productSvc.getProductList();
+    private void loadItems() {
+        List<Item> plist = itemSvc.geItemList();
         DefaultTableModel model = (DefaultTableModel) this.prodList.getModel();
         plist.forEach(c -> {
             Object[] obj = {c.getId(), c.getName(), c.getCode(), c.getPrice(), c.getQuantity(), c.getCategoryName()};
@@ -156,9 +156,9 @@ public class HomePage extends javax.swing.JFrame {
         jMenu2.setText("System Management");
         jMenu2.setMargin(new java.awt.Insets(3, 6, 3, 3));
 
-        jMenu3.setText("Product");
+        jMenu3.setText("Item");
 
-        jMenuItem2.setText("Add Product");
+        jMenuItem2.setText("Add Item");
         jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem2ActionPerformed(evt);
@@ -166,7 +166,7 @@ public class HomePage extends javax.swing.JFrame {
         });
         jMenu3.add(jMenuItem2);
 
-        jMenuItem3.setText("All Product List");
+        jMenuItem3.setText("All Itemt List");
         jMenu3.add(jMenuItem3);
 
         jMenu2.add(jMenu3);
@@ -216,7 +216,7 @@ public class HomePage extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
-        ui.addProduct(this);
+        ui.addItem(this);
     }//GEN-LAST:event_btnAddActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -228,7 +228,7 @@ public class HomePage extends javax.swing.JFrame {
     }//GEN-LAST:event_jmiExitActionPerformed
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
-        ui.addProduct(this);
+        ui.addItem(this);
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed

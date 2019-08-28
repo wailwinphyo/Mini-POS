@@ -121,10 +121,8 @@ public class CategoryPage extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jlbName, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(jlbDecription, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addGap(61, 61, 61)
+                    .addComponent(jlbDecription, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jtfName, javax.swing.GroupLayout.PREFERRED_SIZE, 251, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 302, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -199,9 +197,9 @@ public class CategoryPage extends javax.swing.JFrame {
         jMenu2.setText("System Management");
         jMenu2.setMargin(new java.awt.Insets(3, 6, 3, 3));
 
-        jMenu3.setText("Product");
+        jMenu3.setText("Item");
 
-        jMenuItem2.setText("Add Product");
+        jMenuItem2.setText("Add Item");
         jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem2ActionPerformed(evt);
@@ -209,7 +207,7 @@ public class CategoryPage extends javax.swing.JFrame {
         });
         jMenu3.add(jMenuItem2);
 
-        jMenuItem3.setText("All Product List");
+        jMenuItem3.setText("All Item List");
         jMenu3.add(jMenuItem3);
 
         jMenu2.add(jMenu3);
@@ -294,7 +292,7 @@ public class CategoryPage extends javax.swing.JFrame {
     }//GEN-LAST:event_jmiExitActionPerformed
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
-        ui.addProduct(this);
+        ui.addItem(this);
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void jMIAddCategoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMIAddCategoryActionPerformed

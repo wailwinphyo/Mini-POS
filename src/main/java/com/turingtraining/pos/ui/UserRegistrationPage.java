@@ -3,10 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.turingtraining.pos.service.ui;
+package com.turingtraining.pos.ui;
 
-import com.turingtraining.pos.dao.model.User;
-import com.turingtraining.pos.dao.model.UserType;
+import com.turingtraining.pos.model.User;
+import com.turingtraining.pos.model.UserType;
 import com.turingtraining.pos.service.UserService;
 import com.turingtraining.pos.service.UserServiceImpl;
 import java.util.Arrays;

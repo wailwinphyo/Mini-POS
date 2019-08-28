@@ -3,18 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.turingtraining.pos.service;
+package com.turingtraining.pos.dao;
 
-import com.turingtraining.pos.model.Product;
-import java.util.List;
+import com.turingtraining.pos.model.Stock;
 
 /**
  *
  * @author wailwinphyo
  */
-public interface ProductService {
-
-    List<Product> getProductList();
-    void insertProduct(Product p);
-    
+public interface StockDao {
+    void persistStockTransaction(Stock s) throws Exception;
 }
