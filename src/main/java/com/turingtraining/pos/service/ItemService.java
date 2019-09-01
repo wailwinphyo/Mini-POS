@@ -14,7 +14,16 @@ import java.util.List;
  */
 public interface ItemService {
 
-    List<Item> geItemList();
-
     void insertItem(Item item);
+    
+    List<Item> getItemListByCatId(Long cId);
+
+    public List<Item> getItemList();
+
+    public List<Item> getRemainingItemQty();
+
+    public Item getItemDetail(String code);
+
+    public void updateItem(Item item)throws Exception;
+
 }

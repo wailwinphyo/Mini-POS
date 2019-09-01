@@ -63,4 +63,25 @@ public class CategoryDaoImpl implements CategoryDao{
         catList.forEach(System.out::println);
         
     }
+
+    @Override
+    public List<Category> getCategoryListForStock() {
+        List<Category> catList = new ArrayList<>();
+        try {
+            PreparedStatement st = dao.createStatement("SELECT cat.id, cat.name, description FROM categories cat "
+                    + "INNER JOIN items i on i.category_id = cat.id "
+                    + "GROUP BY cat.id, cat.name");
+            ResultSet rs = st.executeQuery();
+            while(rs.next()){
+                Long id = rs.getLong("id");
+                String name = rs.getString("name");
+                String desc = rs.getString("description");
+                Category cat = new Category(id, name, desc);
+                catList.add(cat);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(CategoryDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return catList;
+    }
 }

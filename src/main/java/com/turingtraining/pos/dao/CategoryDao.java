@@ -15,4 +15,6 @@ import java.util.List;
 public interface CategoryDao {
     public void insertCategory(Category cat) throws Exception;
     public List<Category> getCategoryList();
+
+    public List<Category> getCategoryListForStock();
 }

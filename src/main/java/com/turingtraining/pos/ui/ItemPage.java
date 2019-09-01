@@ -7,6 +7,7 @@ package com.turingtraining.pos.ui;
 
 import com.turingtraining.pos.model.Category;
 import com.turingtraining.pos.model.Item;
+import com.turingtraining.pos.model.User;
 import com.turingtraining.pos.service.CategoryService;
 import com.turingtraining.pos.service.CategoryServiceImpl;
 import com.turingtraining.pos.service.ItemServiceImpl;
@@ -17,6 +18,11 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import com.turingtraining.pos.service.ItemService;
+import com.turingtraining.pos.util.SystemUtil;
+import java.awt.HeadlessException;
+import java.util.HashMap;
+import java.util.Map;
+import javax.swing.event.TableModelEvent;
 
 /**
  *
@@ -29,7 +35,7 @@ public class ItemPage extends javax.swing.JFrame {
      */
     CategoryService catService = new CategoryServiceImpl();
     ItemService itemService = new ItemServiceImpl();
-    UiManager ui = new UiManager();
+    Map<String, Item> updatedItems = new HashMap<String, Item>();
 
     public ItemPage() {
         initComponents();
@@ -41,13 +47,27 @@ public class ItemPage extends javax.swing.JFrame {
         DefaultComboBoxModel model = (DefaultComboBoxModel) jcbCategory.getModel();
         catList.forEach(c -> model.addElement(c));
         jcbCategory.setModel(model);
-        List<Item> itemlist = itemService.geItemList();
+        List<Item> itemlist = itemService.getItemList();
         DefaultTableModel pModel = (DefaultTableModel) this.jtItems.getModel();
         itemlist.forEach(c -> {
-            Object[] obj = {c.getId(), c.getName(), c.getCode(), c.getPrice(), c.getQuantity(), c.getCategoryName()};
+            Object[] obj = {c.getId(), c.getCode(), c.getName(), c.getPrice(), c.getQuantity(), c.getCategoryName()};
             pModel.addRow(obj);
         });
         this.jtItems.setModel(pModel);
+    }
+
+    private void updateItem(int frow, int lrow) {
+        DefaultTableModel model = (DefaultTableModel) jtItems.getModel();
+
+        for (int i = frow; i <= lrow; i++) {
+            Long id = (Long) model.getValueAt(i, 0);
+            String name = (String) model.getValueAt(i, 1);
+            String code = (String) model.getValueAt(i, 2);
+            Double price = (Double) model.getValueAt(i, 3);
+            Item item = new Item.ItemBuilder().setId(id).setName(name).setCode(code).setPrice(price).build();
+            this.updatedItems.put(code, item);
+        }
+        this.jbtUpdate.setEnabled(true);
     }
 
     /**
@@ -74,16 +94,20 @@ public class ItemPage extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jtItems = new javax.swing.JTable();
+        jbtUpdate = new javax.swing.JButton();
+        jbnCancel1 = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
+        jmiAddNewCashier = new javax.swing.JMenuItem();
         jmiExit = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
-        jMenu3 = new javax.swing.JMenu();
-        jMenuItem2 = new javax.swing.JMenuItem();
-        jMenuItem3 = new javax.swing.JMenuItem();
-        jMenu4 = new javax.swing.JMenu();
-        jMIAddCategory = new javax.swing.JMenuItem();
-        jMenuItem5 = new javax.swing.JMenuItem();
+        jmiAddStock = new javax.swing.JMenuItem();
+        jmiProduct = new javax.swing.JMenuItem();
+        jmiCategory = new javax.swing.JMenuItem();
+        jmiStockReport = new javax.swing.JMenu();
+        jMenuItem4 = new javax.swing.JMenuItem();
+        jmiSaleReport = new javax.swing.JMenuItem();
+        jMenuItem7 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Mini POS");
@@ -136,8 +160,8 @@ public class ItemPage extends javax.swing.JFrame {
             }
         });
 
-        jbnCancel.setForeground(java.awt.Color.red);
-        jbnCancel.setText("Cancel");
+        jbnCancel.setForeground(java.awt.Color.black);
+        jbnCancel.setText("Back to home");
         jbnCancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jbnCancelActionPerformed(evt);
@@ -171,7 +195,7 @@ public class ItemPage extends javax.swing.JFrame {
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(34, Short.MAX_VALUE)
+                .addContainerGap(63, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jtfName, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -203,14 +227,14 @@ public class ItemPage extends javax.swing.JFrame {
 
             },
             new String [] {
-                "ID", "Name", "Code", "Price", "Quantity", "Category"
+                "ID", "Code", "Name", "Price", "Quantity", "Category"
             }
         ) {
             Class[] types = new Class [] {
                 java.lang.Long.class, java.lang.String.class, java.lang.String.class, java.lang.Double.class, java.lang.Integer.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, true, true, true, false, true
+                false, true, true, true, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -221,26 +245,64 @@ public class ItemPage extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        jtItems.getModel().addTableModelListener((tme) -> {
+            if(tme.getType() == TableModelEvent.UPDATE){
+                updateItem(tme.getFirstRow(), tme.getLastRow());
+            }
+        });
         jtItems.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(jtItems);
+
+        jbtUpdate.setText("Update");
+        jbtUpdate.setEnabled(false);
+        jbtUpdate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtUpdateActionPerformed(evt);
+            }
+        });
+
+        jbnCancel1.setForeground(java.awt.Color.black);
+        jbnCancel1.setText("Back to home");
+        jbnCancel1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbnCancel1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 756, Short.MAX_VALUE)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jbnCancel1, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jbtUpdate))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 302, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 14, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 287, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jbnCancel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jbtUpdate))
+                .addContainerGap())
         );
 
         jTabbedPane1.addTab("Iem List", jPanel2);
 
         jMenu1.setText("File");
         jMenu1.setMargin(new java.awt.Insets(3, 6, 3, 3));
+
+        jmiAddNewCashier.setText("Add User");
+        jmiAddNewCashier.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmiAddNewCashierActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jmiAddNewCashier);
 
         jmiExit.setText("Exit");
         jmiExit.addActionListener(new java.awt.event.ActionListener() {
@@ -252,45 +314,62 @@ public class ItemPage extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenu1);
 
-        jMenu2.setText("System Management");
+        jMenu2.setText("System Config");
         jMenu2.setMargin(new java.awt.Insets(3, 6, 3, 3));
 
-        jMenu3.setText("Item");
-
-        jMenuItem2.setText("Add Item");
-        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+        jmiAddStock.setText("Add Stock");
+        jmiAddStock.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem2ActionPerformed(evt);
+                jmiAddStockActionPerformed(evt);
             }
         });
-        jMenu3.add(jMenuItem2);
+        jMenu2.add(jmiAddStock);
 
-        jMenuItem3.setText("All Item List");
-        jMenu3.add(jMenuItem3);
-
-        jMenu2.add(jMenu3);
-
-        jMenu4.setText("Category");
-
-        jMIAddCategory.setText("Add Category");
-        jMIAddCategory.addActionListener(new java.awt.event.ActionListener() {
+        jmiProduct.setText("Product");
+        jmiProduct.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMIAddCategoryActionPerformed(evt);
+                jmiProductActionPerformed(evt);
             }
         });
-        jMenu4.add(jMIAddCategory);
+        jMenu2.add(jmiProduct);
 
-        jMenuItem5.setText("All Category List");
-        jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
+        jmiCategory.setText("Category");
+        jmiCategory.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem5ActionPerformed(evt);
+                jmiCategoryActionPerformed(evt);
             }
         });
-        jMenu4.add(jMenuItem5);
-
-        jMenu2.add(jMenu4);
+        jMenu2.add(jmiCategory);
 
         jMenuBar1.add(jMenu2);
+
+        jmiStockReport.setText("Reports");
+
+        jMenuItem4.setText("Stock Report");
+        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem4ActionPerformed(evt);
+            }
+        });
+        jmiStockReport.add(jMenuItem4);
+
+        jmiSaleReport.setText("Monthly Report");
+        jmiSaleReport.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmiSaleReportActionPerformed(evt);
+            }
+        });
+        jmiStockReport.add(jmiSaleReport);
+
+        jMenuItem7.setText("Sale Report");
+        jMenuItem7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem7ActionPerformed(evt);
+            }
+        });
+        jmiStockReport.add(jMenuItem7);
+
+        jMenuBar1.add(jmiStockReport);
 
         setJMenuBar(jMenuBar1);
 
@@ -328,7 +407,7 @@ public class ItemPage extends javax.swing.JFrame {
     }//GEN-LAST:event_jtfPriceActionPerformed
 
     private void jbnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbnCancelActionPerformed
-        ui.returnHome(this);
+        PageSwitcher.returnHome(this);
     }//GEN-LAST:event_jbnCancelActionPerformed
 
     private void jcbCategoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcbCategoryActionPerformed
@@ -346,7 +425,7 @@ public class ItemPage extends javax.swing.JFrame {
             String code = this.jtfCode.getText();
             Double price = Double.parseDouble(this.jtfPrice.getText());
             Category cat = (Category) this.jcbCategory.getSelectedItem();
-            Item p = new Item(null, name, code, price, 0, cat.getId());
+            Item p = new Item(null, name, code, price, cat.getId());
             itemService.insertItem(p);
             msg = "Success! Item Added! \n Add more Item ?";
         } catch (NumberFormatException e) {
@@ -360,25 +439,64 @@ public class ItemPage extends javax.swing.JFrame {
             this.jtfPrice.setText("");
             this.jcbCategory.setSelectedIndex(0);
         } else {
-            ui.returnHome(this);
+            PageSwitcher.returnHome(this);
         }
     }//GEN-LAST:event_jbnAddActionPerformed
+
+    private void jmiAddNewCashierActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiAddNewCashierActionPerformed
+        User u = SystemUtil.getCurrentUser();
+        if ("ROLE_ADMIN".equals(u.getUserType())) {
+            PageSwitcher.registerNewCashier(this);
+        } else {
+            JOptionPane.showMessageDialog(null, "Only admin can add cashier", "UnAuthorized", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_jmiAddNewCashierActionPerformed
 
     private void jmiExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiExitActionPerformed
         this.dispose();
     }//GEN-LAST:event_jmiExitActionPerformed
 
-    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
-        ui.addItem(this);
-    }//GEN-LAST:event_jMenuItem2ActionPerformed
+    private void jmiAddStockActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiAddStockActionPerformed
+        new StockPage().setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jmiAddStockActionPerformed
 
-    private void jMIAddCategoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMIAddCategoryActionPerformed
-        ui.addCategory(this);
-    }//GEN-LAST:event_jMIAddCategoryActionPerformed
+    private void jmiProductActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiProductActionPerformed
+        PageSwitcher.ItemPage(this);
+    }//GEN-LAST:event_jmiProductActionPerformed
 
-    private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
+    private void jmiCategoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiCategoryActionPerformed
+        PageSwitcher.CategoryPage(this);
+    }//GEN-LAST:event_jmiCategoryActionPerformed
+
+    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
+        PageSwitcher.showRemainingStock(this);
+    }//GEN-LAST:event_jMenuItem4ActionPerformed
+
+    private void jmiSaleReportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiSaleReportActionPerformed
+        PageSwitcher.showMonthlySaleReport(this);
+    }//GEN-LAST:event_jmiSaleReportActionPerformed
+
+    private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
+        PageSwitcher.showSaleReport(this);
+    }//GEN-LAST:event_jMenuItem7ActionPerformed
+
+    private void jbtUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtUpdateActionPerformed
+        try {
+            for (Item item : this.updatedItems.values()) {
+                itemService.updateItem(item);
+            }
+            JOptionPane.showMessageDialog(null, "Successfully Updated");
+            this.jbtUpdate.setEnabled(false);
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage());
+            Logger.getLogger(ItemPage.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jbtUpdateActionPerformed
+
+    private void jbnCancel1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbnCancel1ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jMenuItem5ActionPerformed
+    }//GEN-LAST:event_jbnCancel1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -423,23 +541,27 @@ public class ItemPage extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JMenuItem jMIAddCategory;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
-    private javax.swing.JMenu jMenu3;
-    private javax.swing.JMenu jMenu4;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jMenuItem2;
-    private javax.swing.JMenuItem jMenuItem3;
-    private javax.swing.JMenuItem jMenuItem5;
+    private javax.swing.JMenuItem jMenuItem4;
+    private javax.swing.JMenuItem jMenuItem7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JButton jbnAdd;
     private javax.swing.JButton jbnCancel;
+    private javax.swing.JButton jbnCancel1;
+    private javax.swing.JButton jbtUpdate;
     private javax.swing.JComboBox<Category> jcbCategory;
+    private javax.swing.JMenuItem jmiAddNewCashier;
+    private javax.swing.JMenuItem jmiAddStock;
+    private javax.swing.JMenuItem jmiCategory;
     private javax.swing.JMenuItem jmiExit;
+    private javax.swing.JMenuItem jmiProduct;
+    private javax.swing.JMenuItem jmiSaleReport;
+    private javax.swing.JMenu jmiStockReport;
     private javax.swing.JTable jtItems;
     private javax.swing.JTextField jtfCode;
     private javax.swing.JTextField jtfName;

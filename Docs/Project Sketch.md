@@ -35,18 +35,18 @@
     - [x] DB query
     - [x] GUI
 
-- [ ] Stock handling.
+- [x] Stock handling.
 
-- [ ] Sale process by Cashier.
-        - [ ] Each sale voucher much contains item code, item name, quantity, price and date.
-        - [ ] At the end of the voucher, total for all item must be included.
+- [x] Sale process by Cashier.
+        - [x] Each sale voucher much contains item code, item name, quantity, price and date.
+        - [x] At the end of the voucher, total for all item must be included.
 
-- [ ] Stock refill. (Will refill stock based on the purchase of item) 
-        - [ ] Need to keep track which items are purchased and refill and their quantity.
-        - [ ] After refilled, item quantity will be update.
+- [x] Stock refill. (Will refill stock based on the purchase of item) 
+        - [x] Need to keep track which items are purchased and refill and their quantity.
+        - [x] After refilled, item quantity will be update.
 
-- [ ] Report to check item and their quantity in stock.
+- [x] Report to check item and their quantity in stock.
 
-- [ ] Sale report by Cashier by Date interval, for example How many item are sold and their total price amount within Jan 1 and Feb 2.
+- [x] Sale report by Cashier by Date interval, for example How many item are sold and their total price amount within Jan 1 and Feb 2.
 
-- [ ] Monthly total sale report for a shop.
+- [x] Monthly total sale report for a shop.

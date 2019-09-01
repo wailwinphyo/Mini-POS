@@ -20,4 +20,6 @@ public interface UserService {
     void registerUser(User u) throws Exception;
     
     List<UserType> getUserTypes();
+
+    public List<User> getCashierList();
 }

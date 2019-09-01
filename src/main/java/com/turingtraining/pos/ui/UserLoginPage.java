@@ -9,6 +9,7 @@ import com.turingtraining.pos.model.User;
 import com.turingtraining.pos.exception.UserException;
 import com.turingtraining.pos.service.UserService;
 import com.turingtraining.pos.service.UserServiceImpl;
+import java.awt.event.KeyEvent;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -67,8 +68,18 @@ public class UserLoginPage extends javax.swing.JFrame {
         jLabel3.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
 
         jtfUsername.setPreferredSize(new java.awt.Dimension(200, 35));
+        jtfUsername.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jtfUsernameKeyPressed(evt);
+            }
+        });
 
         jpfPassword.setPreferredSize(new java.awt.Dimension(200, 35));
+        jpfPassword.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jpfPasswordKeyPressed(evt);
+            }
+        });
 
         jButton1.setText("Log In");
         jButton1.setToolTipText("");
@@ -105,11 +116,11 @@ public class UserLoginPage extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jtfUsername, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(54, 54, 54)
+                .addGap(37, 37, 37)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jpfPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(32, 32, 32)
+                    .addComponent(jpfPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(49, 49, 49)
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(20, 20, 20))
         );
@@ -164,12 +175,16 @@ public class UserLoginPage extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        submitLogin();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void submitLogin() {
         try {
             String name = this.jtfUsername.getText().trim();
             char[] password = this.jpfPassword.getPassword();
-            User u = new User(name, new String(password));
+            User u = new User().setUsername(name).setPassword(new String(password));
             userSvc.userLogin(u);
-            new ItemPage().setVisible(true);
+            new SalePage().setVisible(true);
             this.dispose();
         } catch (UserException ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage(), "User Login", JOptionPane.ERROR_MESSAGE);
@@ -177,7 +192,18 @@ public class UserLoginPage extends javax.swing.JFrame {
             Logger.getLogger(UserLoginPage.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(this, "Failed to login", "User Login", JOptionPane.ERROR_MESSAGE);
         }
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }
+    private void jtfUsernameKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfUsernameKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            this.jpfPassword.requestFocus();
+        }
+    }//GEN-LAST:event_jtfUsernameKeyPressed
+
+    private void jpfPasswordKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jpfPasswordKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            submitLogin();
+        }
+    }//GEN-LAST:event_jpfPasswordKeyPressed
 
     /**
      * @param args the command line arguments

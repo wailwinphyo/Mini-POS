@@ -28,6 +28,11 @@ public class CategoryServiceImpl implements CategoryService {
     public List<Category> getCategoryList(){
         return catDao.getCategoryList();
     }
+
+    @Override
+    public List<Category> getCategoryListForStock() {
+        return catDao.getCategoryListForStock();
+    }
     
     
 

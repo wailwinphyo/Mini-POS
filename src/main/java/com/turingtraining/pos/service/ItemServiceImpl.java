@@ -9,9 +9,6 @@ import com.turingtraining.pos.dao.ItemDaoImpl;
 import com.turingtraining.pos.model.Item;
 import java.util.List;
 import com.turingtraining.pos.dao.ItemDao;
-import com.turingtraining.pos.dao.StockDao;
-import com.turingtraining.pos.dao.StockDaoImpl;
-import com.turingtraining.pos.model.Stock;
 
 /**
  *
@@ -20,10 +17,9 @@ import com.turingtraining.pos.model.Stock;
 public class ItemServiceImpl implements ItemService {
 
     ItemDao itemDao = new ItemDaoImpl();
-    StockDao stockDao = new StockDaoImpl();
 
     @Override
-    public List<Item> geItemList() {
+    public List<Item> getItemList() {
         return itemDao.getItemList();
     }
 
@@ -32,4 +28,23 @@ public class ItemServiceImpl implements ItemService {
         itemDao.insertItem(p);
     }
 
+    @Override
+    public List<Item> getItemListByCatId(Long cId) {
+        return itemDao.getItemListByCatId(cId);
+    }
+
+    @Override
+    public List<Item> getRemainingItemQty() {
+        return itemDao.getRemainingItemQty();
+    }
+
+    @Override
+    public Item getItemDetail(String code) {
+        return itemDao.getItemDetail(code);
+    }
+
+    @Override
+    public void updateItem(Item item) throws Exception{
+        itemDao.updateItem(item);
+    }
 }

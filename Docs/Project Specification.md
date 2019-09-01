@@ -7,8 +7,8 @@
 4. Item registration with item category, unit price.
 5. Stock handling.
 6. Sale process by Cashier.
-    o Each sale voucher much contains item code, item name, quantity, price and date.
-    o At the end of the voucher, total for all item must be included.
+    - Each sale voucher much contains item code, item name, quantity, price and date.
+    - At the end of the voucher, total for all item must be included.
 7. Stock refill. (Will refill stock based on the purchase of item) Need to keep track which items are purchased and refill and their quantity. After refill, item quantity will be update.
 8. Report to check item and their quantity in stock.
 9. Sale report by Cashier by Date interval, for example How many item are sold and their total price amount within Jan 1 and Feb 2.

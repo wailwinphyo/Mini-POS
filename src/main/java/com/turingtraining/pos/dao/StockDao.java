@@ -5,12 +5,21 @@
  */
 package com.turingtraining.pos.dao;
 
+import com.turingtraining.pos.model.Item;
 import com.turingtraining.pos.model.Stock;
+import java.util.Date;
+import java.util.List;
 
 /**
  *
  * @author wailwinphyo
  */
 public interface StockDao {
+
     void persistStockTransaction(Stock s) throws Exception;
+
+    List<Item> getSaleReport(Long cId, Long startDate, Long endDate);
+
+    public List<Item> getMonthlyReport(Date date);
+
 }

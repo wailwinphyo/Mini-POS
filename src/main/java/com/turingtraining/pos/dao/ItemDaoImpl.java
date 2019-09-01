@@ -7,7 +7,6 @@ package com.turingtraining.pos.dao;
 
 import com.turingtraining.pos.exception.ItemException;
 import com.turingtraining.pos.model.Item;
-import com.turingtraining.pos.model.Stock;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -25,10 +24,31 @@ public class ItemDaoImpl implements ItemDao {
     private final DAO dao = DAO.getDAO();
 
     @Override
+    public List<Item> getItemListByCatId(Long cId) {
+        List<Item> prodList = new ArrayList<>();
+        try {
+            PreparedStatement st = dao.createStatement("SELECT p.id, p.name, p.code, p.price FROM items p INNER JOIN categories cat on cat.id = p.category_id WHERE cat.id = ? ORDER BY p.name");
+            st.setLong(1, cId);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                Long id = rs.getLong("id");
+                String name = rs.getString("name");
+                String code = rs.getString("code");
+                Double price = rs.getDouble("price");
+                Item p = new Item(id, name, code, price, null);
+                prodList.add(p);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return prodList;
+    }
+
+    @Override
     public List<Item> getItemList() {
         List<Item> prodList = new ArrayList<>();
         try {
-            PreparedStatement st = dao.createStatement("SELECT p.id, p.name, p.code, p.price, p.quantity, cat.name as category FROM items p INNER JOIN categories cat on cat.id = p.category_id");
+            PreparedStatement st = dao.createStatement("SELECT p.id, p.name, p.code, p.price, p.quantity, cat.name as category FROM items p INNER JOIN categories cat on cat.id = p.category_id ORDER BY p.name");
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
                 Long id = rs.getLong("id");
@@ -37,8 +57,9 @@ public class ItemDaoImpl implements ItemDao {
                 Double price = rs.getDouble("price");
                 Integer qty = rs.getInt("quantity");
                 String category = rs.getString("category");
-                Item p = new Item(id, name, code, price, qty);
+                Item p = new Item(id, name, code, price, null);
                 p.setCategoryName(category);
+                p.setQuantity(qty);
                 prodList.add(p);
             }
         } catch (SQLException ex) {
@@ -62,18 +83,18 @@ public class ItemDaoImpl implements ItemDao {
     }
 
     @Override
-    public Item getItemDetail(Long pId) {
+    public Item getItemDetail(String scode) {
 
         try {
-            PreparedStatement st = dao.createStatement("SELECT id, name, code, price from items where id = ?");
-            st.setLong(1, pId);
+            PreparedStatement st = dao.createStatement("SELECT id, name, code, price from items where code = ?");
+            st.setString(1, scode);
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
                 Long id = rs.getLong("id");
                 String name = rs.getString("name");
                 String code = rs.getString("code");
                 Double price = rs.getDouble("price");
-                Item p = new Item(id, name, code, price, 0);
+                Item p = new Item(id, name, code, price, null);
                 return p;
             }
         } catch (SQLException ex) {
@@ -83,7 +104,21 @@ public class ItemDaoImpl implements ItemDao {
     }
 
     @Override
-    public void updateItem(Item item) throws Exception {
+    public void purchaseItem(Item item) throws Exception {
+        try {
+            PreparedStatement st = dao.createStatement("UPDATE items SET quantity = quantity - ?, price = ? WHERE id = ?");
+            st.setInt(1, item.getQuantity());
+            st.setDouble(2, item.getPrice());
+            st.setLong(3, item.getId());
+            st.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(ItemDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+            throw new ItemException("Failed to update item");
+        }
+    }
+
+    @Override
+    public void addItemStock(Item item) throws Exception {
         try {
             PreparedStatement st = dao.createStatement("UPDATE items SET quantity = quantity + ?, price = ? WHERE id = ?");
             st.setInt(1, item.getQuantity());
@@ -96,12 +131,50 @@ public class ItemDaoImpl implements ItemDao {
         }
     }
 
+    @Override
+    public List<Item> getRemainingItemQty() {
+        List<Item> itemList = new ArrayList<>();
+        try {
+            PreparedStatement st = dao.createStatement("SELECT item.name, item.code, item.quantity "
+                    + "FROM items item "
+                    + "INNER JOIN stock_transactions s ON s.item_id = item.id "
+                    + "GROUP BY item.id "
+                    + "ORDER BY item.quantity desc");
+
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                String name = rs.getString("name");
+                String code = rs.getString("code");
+                int quantity = rs.getInt("quantity");
+                Item item = new Item.ItemBuilder().setName(name).setCode(code).setQuantity(quantity).build();
+                itemList.add(item);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ItemDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return itemList;
+    }
+
+    @Override
+    public void updateItem(Item item) throws Exception {
+        try {
+            PreparedStatement st = dao.createStatement("UPDATE items SET name = ?, code = ?, price = ? WHERE id = ?");
+            st.setString(1, item.getName());
+            st.setString(2, item.getCode());
+            st.setDouble(3, item.getPrice());
+            st.setLong(4, item.getId());
+            st.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(ItemDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+            throw new Exception("Failed to update item" + item.getName());
+        }
+    }
+
     public static void main(String[] args) {
         ItemDao dao = new ItemDaoImpl();
-        Item p = new Item("Hot Dog 2", "FD-103", 1000, 1);
+        Item p = new Item(null, "Hot Dog 2", "FD-103", 1000.0, 1L);
         dao.insertItem(p);
         List<Item> pList = dao.getItemList();
         pList.forEach(System.out::println);
     }
-
 }

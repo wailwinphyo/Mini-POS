@@ -5,7 +5,10 @@
  */
 package com.turingtraining.pos.service;
 
+import com.turingtraining.pos.model.Item;
 import com.turingtraining.pos.model.Stock;
+import java.util.Date;
+import java.util.List;
 
 /**
  *
@@ -13,8 +16,14 @@ import com.turingtraining.pos.model.Stock;
  */
 public interface StockService {
 
-    void reduceStock(Stock s) throws Exception;
-
     void refillStock(Stock s) throws Exception;
-    
+
+    List<Stock> getStockList();
+
+    public void purchaseItem(List<Item> values) throws Exception;
+
+    List<Item> getSaleReport(Long cId, Long startDate, Long endDate);
+
+    List<Item> getMonthlyReport(Date date);
+
 }

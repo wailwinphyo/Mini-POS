@@ -13,9 +13,13 @@ import java.util.List;
  *
  * @author DELL
  */
-public interface UserDao{
-    void userLogin(User u) throws Exception;
+public interface UserDao {
+
+    User getUser(User u) throws Exception;
+
     void registerUser(User u) throws Exception;
 
     public List<UserType> getUserTypes();
+
+    public List<User> getCashierList();
 }

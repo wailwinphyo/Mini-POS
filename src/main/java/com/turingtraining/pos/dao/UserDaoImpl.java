@@ -25,28 +25,29 @@ public class UserDaoImpl implements UserDao {
     DAO dao = DAO.getDAO();
 
     @Override
-    public void userLogin(User u) throws Exception {
-        PreparedStatement st = dao.createStatement("SELECT id FROM users WHERE username = ? and password = ?");
+    public User getUser(User u) throws Exception {
+        PreparedStatement st = dao.createStatement("SELECT u.id, u.name, ut.role FROM users u INNER JOIN user_types ut ON ut.id = u.user_type_id WHERE u.username = ? and u.password = ?");
         st.setString(1, u.getUsername());
         st.setString(2, u.getPassword());
         ResultSet rs = st.executeQuery();
-        Long id = null;
         while (rs.next()) {
-            id = rs.getLong("id");
+            Long id = rs.getLong("id");
+            String name = rs.getString("name");
+            String type = rs.getString("role");
+            return new User().setId(id).setName(name).setUserType(type);
         }
-        if (id == null) {
-            throw new UserException("Incorrect Username and Password!");
-        }
+        throw new UserException("Incorrect Username and Password!");
     }
 
     @Override
     public void registerUser(User u) throws Exception {
         if (checkUsername(u.getUsername())) {
             try {
-                PreparedStatement st = dao.createStatement("INSERT INTO Users(username, password, usertype_id) VALUES(?, ?, ? )");
-                st.setString(1, u.getUsername());
-                st.setString(2, u.getPassword());
-                st.setLong(3, u.getUsertype_id());
+                PreparedStatement st = dao.createStatement("INSERT INTO users(name, username, password, user_type_id) VALUES(?, ?, ?, ?)");
+                st.setString(1, u.getName());
+                st.setString(2, u.getUsername());
+                st.setString(3, u.getPassword());
+                st.setLong(4, u.getUsertype_id());
                 st.executeUpdate();
             } catch (SQLException ex) {
                 Logger.getLogger(UserDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
@@ -59,7 +60,7 @@ public class UserDaoImpl implements UserDao {
 
     private boolean checkUsername(String username) {
         try {
-            PreparedStatement st = dao.createStatement("SELECT id FROM Users WHERE username = ?");
+            PreparedStatement st = dao.createStatement("SELECT id FROM users WHERE username = ?");
             st.setString(1, username);
             ResultSet rs = st.executeQuery();
             return !rs.next();
@@ -73,7 +74,7 @@ public class UserDaoImpl implements UserDao {
     public List<UserType> getUserTypes() {
         List<UserType> userTypeList = new ArrayList<>();
         try {
-            PreparedStatement st = dao.createStatement("SELECT id, name FROM UserTypes");
+            PreparedStatement st = dao.createStatement("SELECT id, name FROM user_types");
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
                 Long id = rs.getLong("id");
@@ -87,15 +88,35 @@ public class UserDaoImpl implements UserDao {
         return userTypeList;
     }
 
-    public static void main(String[] args) {
-        User u = new User("admin", "admin2", 1L);
-        UserDao userDao = new UserDaoImpl();
+//    public static void main(String[] args) {
+//        User u = new User("admin", "admin2", 1L);
+//        UserDao userDao = new UserDaoImpl();
+//        try {
+//            userDao.userLogin(u);
+//            System.out.println("Login Success");
+//        } catch (Exception ex) {
+//            Logger.getLogger(UserDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//    }
+    @Override
+    public List<User> getCashierList() {
+        List<User> userList = new ArrayList<>();
         try {
-            userDao.userLogin(u);
-            System.out.println("Login Success");
-        } catch (Exception ex) {
+            PreparedStatement st = dao.createStatement("SELECT u.id, u.name FROM users u "
+                    + "INNER JOIN user_types ut ON u.user_type_id = ut.id "
+                    + "WHERE ut.role = ? ");
+            st.setString(1, "ROLE_CASHIER");
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                Long id = rs.getLong("id");
+                String name = rs.getString("name");
+                User u = new User().setId(id).setName(name);
+                userList.add(u);
+            }
+
+        } catch (SQLException ex) {
             Logger.getLogger(UserDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
+        return userList;
     }
-
 }

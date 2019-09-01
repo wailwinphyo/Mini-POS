@@ -18,8 +18,16 @@ public interface ItemDao {
 
     void insertItem(Item p);
 
-    Item getItemDetail(Long pId);
+    Item getItemDetail(String code);
 
-    public void updateItem(Item item) throws Exception;
+    public void addItemStock(Item item) throws Exception;
+
+    public void purchaseItem(Item item) throws Exception;
+
+    List<Item> getItemListByCatId(Long cId);
+
+    public List<Item> getRemainingItemQty();
+
+    public void updateItem(Item item)throws Exception;
 
 }

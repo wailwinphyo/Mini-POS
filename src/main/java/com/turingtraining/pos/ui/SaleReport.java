@@ -5,14 +5,16 @@
  */
 package com.turingtraining.pos.ui;
 
-import com.turingtraining.pos.model.Category;
+import com.turingtraining.pos.model.Item;
 import com.turingtraining.pos.model.User;
-import com.turingtraining.pos.service.CategoryService;
-import com.turingtraining.pos.service.CategoryServiceImpl;
+import com.turingtraining.pos.service.StockService;
+import com.turingtraining.pos.service.StockServiceImpl;
+import com.turingtraining.pos.service.UserService;
+import com.turingtraining.pos.service.UserServiceImpl;
 import com.turingtraining.pos.util.SystemUtil;
+import java.util.Date;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -20,30 +22,23 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author wailwinphyo
  */
-public class CategoryPage extends javax.swing.JFrame {
+public class SaleReport extends javax.swing.JFrame {
 
     /**
-     * Creates new form AddCategory
+     * Creates new form SaleReport
      */
-    CategoryService catService = new CategoryServiceImpl();
+    UserService userService = new UserServiceImpl();
+    StockService stockService = new StockServiceImpl();
 
-    public CategoryPage() {
+    public SaleReport() {
         initComponents();
         loadData();
     }
 
     private void loadData() {
-        List<Category> catList = catService.getCategoryList();
-        DefaultTableModel model = (DefaultTableModel) this.jtCategories.getModel();
-        int count = model.getRowCount();
-        for (int i = 0; i < count - 1; i++) {
-            model.removeRow(i);
-        }
-        catList.forEach(c -> {
-            Object obj[] = {c.getId(), c.getName(), c.getDescription()};
-            model.addRow(obj);
-        });
-        this.jtCategories.setModel(model);
+        DefaultComboBoxModel cashierModel = (DefaultComboBoxModel) this.jcmbCashiers.getModel();
+        List<User> cashiers = userService.getCashierList();
+        cashiers.forEach(cashierModel::addElement);
     }
 
     /**
@@ -55,18 +50,17 @@ public class CategoryPage extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
-        jtfName = new javax.swing.JTextField();
+        jLabel1 = new javax.swing.JLabel();
+        jcmbCashiers = new javax.swing.JComboBox<>();
+        jLabel2 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jtaDescription = new javax.swing.JTextArea();
-        jlbDecription = new javax.swing.JLabel();
-        jlbName = new javax.swing.JLabel();
-        jbtCancel = new javax.swing.JButton();
-        jbtAdd = new javax.swing.JButton();
-        jPanel2 = new javax.swing.JPanel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        jtCategories = new javax.swing.JTable();
+        jTable1 = new javax.swing.JTable();
+        jxEndDate = new org.jdesktop.swingx.JXDatePicker();
+        jxStartDate = new org.jdesktop.swingx.JXDatePicker();
+        jLabel3 = new javax.swing.JLabel();
+        jButton2 = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jmiAddNewCashier = new javax.swing.JMenuItem();
@@ -84,107 +78,90 @@ public class CategoryPage extends javax.swing.JFrame {
         setTitle("Mini POS");
         setPreferredSize(new java.awt.Dimension(800, 400));
 
-        jtfName.addActionListener(new java.awt.event.ActionListener() {
+        jLabel1.setText("Start Date : ");
+
+        jLabel2.setText("End Date : ");
+
+        jButton1.setText("Search");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jtfNameActionPerformed(evt);
+                jButton1ActionPerformed(evt);
             }
         });
 
-        jtaDescription.setColumns(20);
-        jtaDescription.setRows(5);
-        jScrollPane1.setViewportView(jtaDescription);
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
 
-        jlbDecription.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jlbDecription.setLabelFor(jtaDescription);
-        jlbDecription.setText("Description : ");
+            },
+            new String [] {
+                "Item Code", "Item Name", "Quantity", "Total Price"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Double.class
+            };
 
-        jlbName.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jlbName.setLabelFor(jtfName);
-        jlbName.setText("Name : ");
-
-        jbtCancel.setText("Back to home");
-        jbtCancel.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbtCancelActionPerformed(evt);
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
             }
         });
+        jScrollPane1.setViewportView(jTable1);
 
-        jbtAdd.setText("Add");
-        jbtAdd.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbtAddActionPerformed(evt);
-            }
-        });
+        jxStartDate.setFocusable(false);
+
+        jLabel3.setFont(new java.awt.Font("Noto Sans", 1, 14)); // NOI18N
+        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel3.setText("Sale Report");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane1)
+            .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(138, 138, 138)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jlbName, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jlbDecription, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jtfName, javax.swing.GroupLayout.PREFERRED_SIZE, 251, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 302, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jbtAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(21, 21, 21)
-                        .addComponent(jbtCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(160, 160, 160))
+                .addComponent(jcmbCashiers, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel1)
+                .addGap(4, 4, 4)
+                .addComponent(jxStartDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel2)
+                .addGap(4, 4, 4)
+                .addComponent(jxEndDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(74, Short.MAX_VALUE))
         );
+
+        jPanel1Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jLabel1, jLabel2});
+
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(64, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jtfName, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jlbName, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel1)
+                    .addComponent(jcmbCashiers, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2)
+                    .addComponent(jButton1)
+                    .addComponent(jxEndDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jxStartDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jlbDecription, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jbtCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jbtAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(29, 29, 29))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 335, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jTabbedPane1.addTab("Add Category", jPanel1);
+        jPanel1Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jLabel1, jLabel2});
 
-        jtCategories.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "ID", "Name", "Description"
+        jButton2.setText("Back to home");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
             }
-        ));
-        jScrollPane2.setViewportView(jtCategories);
-
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 730, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(15, 15, 15))
-        );
-
-        jTabbedPane1.addTab("Category List", jPanel2);
+        });
 
         jMenu1.setText("File");
         jMenu1.setMargin(new java.awt.Insets(3, 6, 3, 3));
@@ -270,16 +247,22 @@ public class CategoryPage extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(14, Short.MAX_VALUE)
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 774, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jButton2)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jTabbedPane1)
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton2)
                 .addContainerGap())
         );
 
@@ -287,35 +270,29 @@ public class CategoryPage extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jtfNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtfNameActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jtfNameActionPerformed
-
-    private void jbtCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtCancelActionPerformed
-        PageSwitcher.returnHome(this);
-    }//GEN-LAST:event_jbtCancelActionPerformed
-
-    private void jbtAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtAddActionPerformed
-        String msg;
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         try {
-            String name = this.jtfName.getText().trim();
-            String desc = this.jtaDescription.getText();
-
-            if (name == null) {
-                throw new Exception("Category Name is empty");
+            User cashier = (User) this.jcmbCashiers.getSelectedItem();
+            Date startDate = this.jxStartDate.getDate();
+            Date endDate = this.jxEndDate.getDate();
+            if (startDate == null || endDate == null) {
+                throw new Exception("Select Start Date and End Date");
             }
-
-            Category cat = new Category(null, name, desc);
-            catService.insertCategory(cat);
-            msg = "Success !";
-            loadData();
+            List<Item> saleList = stockService.getSaleReport(cashier.getId(), startDate.getTime(), endDate.getTime());
+            DefaultTableModel model = (DefaultTableModel) this.jTable1.getModel();
+            saleList.forEach(c -> {
+                Object[] obj = {c.getCode(), c.getName(), c.getQuantity(), c.getPrice()};
+                model.addRow(obj);
+            });
+            this.jTable1.setModel(model);
         } catch (Exception ex) {
-            Logger.getLogger(Category.class.getName()).log(Level.SEVERE, null, ex);
-            msg = "Failed !";
+            JOptionPane.showMessageDialog(null, ex.getMessage(), "Error Occurred !", JOptionPane.ERROR_MESSAGE);
         }
-        JOptionPane.showMessageDialog(this, msg, "Add Category", JOptionPane.INFORMATION_MESSAGE);
+    }//GEN-LAST:event_jButton1ActionPerformed
 
-    }//GEN-LAST:event_jbtAddActionPerformed
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        PageSwitcher.returnHome(this);
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jmiAddNewCashierActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiAddNewCashierActionPerformed
         User u = SystemUtil.getCurrentUser();
@@ -372,40 +349,39 @@ public class CategoryPage extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Category.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SaleReport.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Category.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SaleReport.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Category.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SaleReport.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Category.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SaleReport.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new CategoryPage().setVisible(true);
+                new SaleReport().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem7;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JButton jbtAdd;
-    private javax.swing.JButton jbtCancel;
-    private javax.swing.JLabel jlbDecription;
-    private javax.swing.JLabel jlbName;
+    private javax.swing.JTable jTable1;
+    private javax.swing.JComboBox<User> jcmbCashiers;
     private javax.swing.JMenuItem jmiAddNewCashier;
     private javax.swing.JMenuItem jmiAddStock;
     private javax.swing.JMenuItem jmiCategory;
@@ -413,8 +389,7 @@ public class CategoryPage extends javax.swing.JFrame {
     private javax.swing.JMenuItem jmiProduct;
     private javax.swing.JMenuItem jmiSaleReport;
     private javax.swing.JMenu jmiStockReport;
-    private javax.swing.JTable jtCategories;
-    private javax.swing.JTextArea jtaDescription;
-    private javax.swing.JTextField jtfName;
+    private org.jdesktop.swingx.JXDatePicker jxEndDate;
+    private org.jdesktop.swingx.JXDatePicker jxStartDate;
     // End of variables declaration//GEN-END:variables
 }

@@ -17,5 +17,7 @@ public interface CategoryService {
     List<Category> getCategoryList();
 
     void insertCategory(Category cat) throws Exception;
+
+    public List<Category> getCategoryListForStock();
     
 }

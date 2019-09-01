@@ -9,6 +9,7 @@ import com.turingtraining.pos.dao.UserDao;
 import com.turingtraining.pos.dao.UserDaoImpl;
 import com.turingtraining.pos.model.User;
 import com.turingtraining.pos.model.UserType;
+import com.turingtraining.pos.util.SystemUtil;
 import java.util.List;
 
 /**
@@ -21,7 +22,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void userLogin(User u) throws Exception {
-        userDao.userLogin(u);
+        User user = userDao.getUser(u);
+        SystemUtil.setUser(user);
     }
 
     @Override
@@ -32,6 +34,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<UserType> getUserTypes() {
         return userDao.getUserTypes();
+    }
+
+    @Override
+    public List<User> getCashierList() {
+        return userDao.getCashierList();
     }
 
 }
