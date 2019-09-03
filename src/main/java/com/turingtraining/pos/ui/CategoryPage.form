@@ -175,7 +175,7 @@
                           <Group type="102" alignment="0" attributes="0">
                               <Component id="jbtAdd" min="-2" pref="90" max="-2" attributes="0"/>
                               <EmptySpace min="-2" pref="21" max="-2" attributes="0"/>
-                              <Component id="jbtCancel" min="-2" pref="90" max="-2" attributes="0"/>
+                              <Component id="jbtCancel" min="-2" pref="107" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                       <EmptySpace min="-2" pref="160" max="-2" attributes="0"/>

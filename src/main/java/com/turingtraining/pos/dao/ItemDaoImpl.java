@@ -35,7 +35,7 @@ public class ItemDaoImpl implements ItemDao {
                 String name = rs.getString("name");
                 String code = rs.getString("code");
                 Double price = rs.getDouble("price");
-                Item p = new Item(id, name, code, price, null);
+                Item p = new Item.ItemBuilder().setId(id).setName(name).setCode(code).setPrice(price).build();
                 prodList.add(p);
             }
         } catch (SQLException ex) {
@@ -57,7 +57,7 @@ public class ItemDaoImpl implements ItemDao {
                 Double price = rs.getDouble("price");
                 Integer qty = rs.getInt("quantity");
                 String category = rs.getString("category");
-                Item p = new Item(id, name, code, price, null);
+                Item p = new Item.ItemBuilder().setId(id).setName(name).setCode(code).setPrice(price).build();
                 p.setCategoryName(category);
                 p.setQuantity(qty);
                 prodList.add(p);
@@ -86,7 +86,7 @@ public class ItemDaoImpl implements ItemDao {
     public Item getItemDetail(String scode) {
 
         try {
-            PreparedStatement st = dao.createStatement("SELECT id, name, code, price from items where code = ?");
+            PreparedStatement st = dao.createStatement("SELECT id, name, code, price, quantity from items where code = ?");
             st.setString(1, scode);
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
@@ -94,8 +94,8 @@ public class ItemDaoImpl implements ItemDao {
                 String name = rs.getString("name");
                 String code = rs.getString("code");
                 Double price = rs.getDouble("price");
-                Item p = new Item(id, name, code, price, null);
-                return p;
+                Integer qty = rs.getInt("quantity");
+                return new Item.ItemBuilder().setId(id).setName(name).setCode(code).setPrice(price).setQuantity(qty).build();
             }
         } catch (SQLException ex) {
             Logger.getLogger(ItemDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
@@ -172,7 +172,7 @@ public class ItemDaoImpl implements ItemDao {
 
     public static void main(String[] args) {
         ItemDao dao = new ItemDaoImpl();
-        Item p = new Item(null, "Hot Dog 2", "FD-103", 1000.0, 1L);
+        Item p = new Item.ItemBuilder().setName("Hot Dog 2").setCode("FD-103").setPrice(1000.0).setCategoryId(1L).build();
         dao.insertItem(p);
         List<Item> pList = dao.getItemList();
         pList.forEach(System.out::println);

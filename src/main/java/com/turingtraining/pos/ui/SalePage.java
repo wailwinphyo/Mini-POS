@@ -54,7 +54,7 @@ public class SalePage extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jDialog1 = new javax.swing.JDialog();
+        jdvoucher = new javax.swing.JDialog();
         jScrollPane2 = new javax.swing.JScrollPane();
         jtVoucher = new javax.swing.JTable();
         jLabel6 = new javax.swing.JLabel();
@@ -93,11 +93,10 @@ public class SalePage extends javax.swing.JFrame {
         jmiSaleReport = new javax.swing.JMenuItem();
         jMenuItem7 = new javax.swing.JMenuItem();
 
-        jDialog1.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        jDialog1.setAlwaysOnTop(true);
-        jDialog1.setLocationByPlatform(true);
-        jDialog1.setMinimumSize(new java.awt.Dimension(800, 500));
-        jDialog1.setModal(true);
+        jdvoucher.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        jdvoucher.setMinimumSize(new java.awt.Dimension(800, 500));
+        jdvoucher.setModal(true);
+        jdvoucher.setLocationRelativeTo(null);
 
         jtVoucher.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -156,50 +155,49 @@ public class SalePage extends javax.swing.JFrame {
 
         jlDate.setText(" ");
 
-        jButton1.setText("Back To Home");
+        jButton1.setText("Close");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
             }
         });
 
-        javax.swing.GroupLayout jDialog1Layout = new javax.swing.GroupLayout(jDialog1.getContentPane());
-        jDialog1.getContentPane().setLayout(jDialog1Layout);
-        jDialog1Layout.setHorizontalGroup(
-            jDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jDialog1Layout.createSequentialGroup()
+        javax.swing.GroupLayout jdvoucherLayout = new javax.swing.GroupLayout(jdvoucher.getContentPane());
+        jdvoucher.getContentPane().setLayout(jdvoucherLayout);
+        jdvoucherLayout.setHorizontalGroup(
+            jdvoucherLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jdvoucherLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jDialog1Layout.createSequentialGroup()
-                        .addGroup(jDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jDialog1Layout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
-                                .addComponent(jLabel6)
-                                .addGap(37, 37, 37)
-                                .addComponent(jtfPTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(jDialog1Layout.createSequentialGroup()
-                                .addComponent(jLabel7)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jlCashier)
-                                .addGap(295, 295, 295)
-                                .addComponent(jLabel8)
-                                .addGap(18, 18, 18)
-                                .addComponent(jlDate, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE)))
-                        .addGap(10, 10, 10))
-                    .addGroup(jDialog1Layout.createSequentialGroup()
-                        .addComponent(jButton1)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addGroup(jdvoucherLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jdvoucherLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jLabel6)
+                        .addGap(37, 37, 37)
+                        .addComponent(jtfPTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jdvoucherLayout.createSequentialGroup()
+                        .addComponent(jLabel7)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jlCashier)
+                        .addGap(301, 301, 301)
+                        .addComponent(jLabel8)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jlDate, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addGap(10, 10, 10))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jdvoucherLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton1)
+                .addContainerGap())
         );
 
-        jDialog1Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jLabel6, jlCashier, jtfPTotal});
+        jdvoucherLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jLabel6, jlCashier, jtfPTotal});
 
-        jDialog1Layout.setVerticalGroup(
-            jDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jDialog1Layout.createSequentialGroup()
+        jdvoucherLayout.setVerticalGroup(
+            jdvoucherLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jdvoucherLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(jdvoucherLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
                     .addComponent(jlCashier)
                     .addComponent(jlDate)
@@ -207,7 +205,7 @@ public class SalePage extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 313, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(jdvoucherLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jtfPTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel6))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -215,7 +213,7 @@ public class SalePage extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jDialog1Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jLabel6, jLabel7, jLabel8, jlCashier, jlDate, jtfPTotal});
+        jdvoucherLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jLabel6, jLabel7, jLabel8, jlCashier, jlDate, jtfPTotal});
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Mini POS");
@@ -476,7 +474,7 @@ public class SalePage extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 471, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 471, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -533,11 +531,8 @@ public class SalePage extends javax.swing.JFrame {
             this.jlCashier.setText(SystemUtil.getCurrentUser().getUsername());
             this.jlDate.setText(SystemUtil.getCurrentDateString());
             this.jtfPTotal.setText(this.jtfTotal.getText());
-            this.jDialog1.setVisible(true);
-            int count = cModel.getRowCount();
-            for (int i = 0; i < count; i++) {
-                ((DefaultTableModel) this.jtCart.getModel()).removeRow(i);
-            }
+            this.jdvoucher.setVisible(true);
+            ((DefaultTableModel) this.jtCart.getModel()).setRowCount(0);
         } catch (Exception ex) {
             Logger.getLogger(SalePage.class.getName()).log(Level.SEVERE, ex.getMessage());
         }
@@ -574,7 +569,7 @@ public class SalePage extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem4ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        this.dispose();
+        this.jdvoucher.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jmiAddNewCashierActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiAddNewCashierActionPerformed
@@ -602,11 +597,13 @@ public class SalePage extends javax.swing.JFrame {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         String code = this.jtfItemCode.getText();
         Item item = itemService.getItemDetail(code);
-        if (item != null) {
+        if (item.getId() == null) {
+            JOptionPane.showMessageDialog(null, "Item not found", "Error Occurred!", JOptionPane.ERROR_MESSAGE);
+        } else if (item.getQuantity() < 1) {
+            JOptionPane.showMessageDialog(null, "Stock run out!", "Error Occurred!", JOptionPane.ERROR_MESSAGE);
+        } else {
             this.jtfItemName.setText(item.getName());
             this.tempItem = item;
-        } else {
-            JOptionPane.showMessageDialog(null, "Item not found", "Error Occurred!", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_jButton2ActionPerformed
 
@@ -648,7 +645,6 @@ public class SalePage extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JDialog jDialog1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -668,6 +664,7 @@ public class SalePage extends javax.swing.JFrame {
     private javax.swing.JButton jbtAddItem;
     private javax.swing.JButton jbtPrint;
     private javax.swing.JButton jbtRemove;
+    private javax.swing.JDialog jdvoucher;
     private javax.swing.JLabel jlCashier;
     private javax.swing.JLabel jlDate;
     private javax.swing.JMenuItem jmiAddNewCashier;

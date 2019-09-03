@@ -22,4 +22,8 @@ public interface UserDao {
     public List<UserType> getUserTypes();
 
     public List<User> getCashierList();
+
+    public List<User> getAllUserList();
+
+    public void deleteUserById(Long id) throws Exception;
 }

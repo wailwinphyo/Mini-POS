@@ -119,4 +119,38 @@ public class UserDaoImpl implements UserDao {
         }
         return userList;
     }
+
+    @Override
+    public List<User> getAllUserList() {
+        List<User> userList = new ArrayList<>();
+        try {
+            PreparedStatement st = dao.createStatement("SELECT u.id, u.name, u.username, ut.name as usertype "
+                    + "FROM users u "
+                    + "INNER JOIN user_types ut ON ut.id = u.user_type_id");
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                Long id = rs.getLong("id");
+                String name = rs.getString("name");
+                String username = rs.getString("username");
+                String userType = rs.getString("usertype");
+                User u = new User().setId(id).setName(name).setUsername(username).setUserType(userType);
+                userList.add(u);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return userList;
+    }
+
+    @Override
+    public void deleteUserById(Long id) throws Exception {
+        try {
+            PreparedStatement st = dao.createStatement("DELETE FROM users where id = ?");
+            st.setLong(1, id);
+            st.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDaoImpl.class.getName()).log(Level.SEVERE, ex.getMessage());
+            throw new Exception("Failed to delete user !");
+        }
+    }
 }

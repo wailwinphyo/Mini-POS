@@ -94,7 +94,7 @@ public class StockDaoImpl implements StockDao {
                             + "GROUP BY s.item_id");
             st.setLong(1, date.getTime());
             st.setLong(2, cal.getTimeInMillis());
-            System.out.println(date.getTime() + "  " + cal.getTimeInMillis());
+//            System.out.println(date.getTime() + "  " + cal.getTimeInMillis());
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
                 String code = rs.getString("code");

@@ -22,7 +22,7 @@ public class Item {
     public Item() {
     }
 
-    public Item(Long id, String code, String name, Double price, Integer quantity, Long categoryId, String categoryName) {
+    private Item(Long id, String code, String name, Double price, Integer quantity, Long categoryId, String categoryName) {
         this.id = id;
         this.code = code;
         this.name = name;
@@ -30,16 +30,6 @@ public class Item {
         this.quantity = quantity;
         this.categoryId = categoryId;
         this.categoryName = categoryName;
-    }
-
-    
-    
-    public Item(Long id, String name, String code, Double price, Long categoryId) {
-        this.id = id;
-        this.code = code;
-        this.name = name;
-        this.price = price;
-        this.categoryId = categoryId;
     }
 
     public Long getId() {
@@ -104,55 +94,56 @@ public class Item {
     }
 
     public static class ItemBuilder {
-        
+
         private Long id;
         private String name;
         private String code;
         private Double price;
         private Integer qty;
         private Long catId;
-        private String catName;     
+        private String catName;
 
-        public static ItemBuilder getInstance(){
+        public static ItemBuilder getInstance() {
             return new ItemBuilder();
         }
-        
-        public ItemBuilder setId(Long id){
+
+        public ItemBuilder setId(Long id) {
             this.id = id;
             return this;
         }
-        
-        public ItemBuilder setName(String name){
+
+        public ItemBuilder setName(String name) {
             this.name = name;
             return this;
         }
-        
-        public ItemBuilder setPrice(Double price){
-             this.price = price;
-             return this;
+
+        public ItemBuilder setPrice(Double price) {
+            this.price = price;
+            return this;
         }
-        
-        public ItemBuilder setCode(String code){
+
+        public ItemBuilder setCode(String code) {
             this.code = code;
             return this;
         }
-        
-        public ItemBuilder setQuantity(Integer qty){
+
+        public ItemBuilder setQuantity(Integer qty) {
             this.qty = qty;
             return this;
         }
-        
-        private ItemBuilder setCategoryId(Long catId){
+
+        public ItemBuilder setCategoryId(Long catId) {
             this.catId = catId;
             return this;
         }
-        private ItemBuilder setCategoryName(String catName){
+
+        public ItemBuilder setCategoryName(String catName) {
             this.catName = catName;
             return this;
         }
-        
-        public Item build(){
-            Item item = new Item(id, name, code, price, qty, catId, catName);
+
+        public Item build() {
+            Item item = new Item(id, code, name, price, qty, catId, catName);
             return item;
         }
     }

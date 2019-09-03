@@ -8,7 +8,6 @@ package com.turingtraining.pos.dao;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -35,7 +34,6 @@ public class DAO {
     private DAO() {
         try {
             this.conn = DriverManager.getConnection(CONN_STR, "root", "root");
-
         } catch (SQLException ex) {
             Logger.getLogger(DAO.class.getName()).log(Level.SEVERE, null, ex);
         }

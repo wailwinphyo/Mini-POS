@@ -33,7 +33,7 @@ public class PageSwitcher {
     }
 
     public static void showRemainingStock(JFrame obj) {
-        new StockPage().setVisible(true);
+        new StockReport().setVisible(true);
         obj.dispose();
     }
 

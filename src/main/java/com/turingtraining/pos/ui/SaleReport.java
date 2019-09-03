@@ -76,7 +76,7 @@ public class SaleReport extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Mini POS");
-        setPreferredSize(new java.awt.Dimension(800, 400));
+        setPreferredSize(null);
 
         jLabel1.setText("Start Date : ");
 
@@ -98,7 +98,7 @@ public class SaleReport extends javax.swing.JFrame {
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Double.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -279,11 +279,20 @@ public class SaleReport extends javax.swing.JFrame {
                 throw new Exception("Select Start Date and End Date");
             }
             List<Item> saleList = stockService.getSaleReport(cashier.getId(), startDate.getTime(), endDate.getTime());
+            ((DefaultTableModel)this.jTable1.getModel()).setRowCount(0);
             DefaultTableModel model = (DefaultTableModel) this.jTable1.getModel();
-            saleList.forEach(c -> {
+            int totalQty = 0;
+            double totalPrice = 0.0;
+            for(Item c : saleList) {
                 Object[] obj = {c.getCode(), c.getName(), c.getQuantity(), c.getPrice()};
                 model.addRow(obj);
-            });
+                totalPrice += c.getPrice();
+                totalQty += c.getQuantity();
+            }
+            Object dummyObj[] = {"", "", "", ""};
+            Object obj[] = {"Total", " - ", totalQty, totalPrice};
+            model.addRow(dummyObj);
+            model.addRow(obj);
             this.jTable1.setModel(model);
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage(), "Error Occurred !", JOptionPane.ERROR_MESSAGE);

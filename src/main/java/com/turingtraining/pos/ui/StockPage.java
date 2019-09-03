@@ -85,6 +85,9 @@ public class StockPage extends javax.swing.JFrame {
 
         jpInsertStock.setPreferredSize(new java.awt.Dimension(36, 31));
 
+        jtfPrice.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        jtfPrice.setText("0");
+
         jcmbItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jcmbItemActionPerformed(evt);
@@ -327,6 +330,9 @@ public class StockPage extends javax.swing.JFrame {
             Stock s = new Stock(item.getId(), price, qty, "Stock Insertion");
             stockService.refillStock(s);
             JOptionPane.showMessageDialog(null, "Successfully Inserted! ", "Stock Insertion", JOptionPane.INFORMATION_MESSAGE);
+            this.jcmbItem.setSelectedIndex(0);
+            this.jspQty.setValue(0);
+            this.jtfPrice.setText("0");
         } catch (NumberFormatException ex) {
             JOptionPane.showMessageDialog(null, "Failed ! " + " Invalid Price", "Stock Insertion", JOptionPane.ERROR_MESSAGE);
             java.util.logging.Logger.getLogger(StockPage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);

@@ -28,6 +28,17 @@ public class MonthlySaleReport extends javax.swing.JFrame {
 
     public MonthlySaleReport() {
         initComponents();
+        initData();
+    }
+
+    private void initData() {
+        Calendar cal = Calendar.getInstance();
+        int year = cal.get(Calendar.YEAR);
+        int month = cal.get(Calendar.MONTH);
+        searchReport(year, month);
+        this.jcmbYear.setSelectedItem(String.valueOf(year));
+        this.jcmbMonth.setSelectedIndex(month);
+
     }
 
     /**
@@ -73,7 +84,7 @@ public class MonthlySaleReport extends javax.swing.JFrame {
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Double.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -239,9 +250,13 @@ public class MonthlySaleReport extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        ((DefaultTableModel)this.jTable1.getModel()).setRowCount(0);
+        int year = Integer.parseInt((String) this.jcmbYear.getSelectedItem());
+        int month = this.jcmbMonth.getSelectedIndex();
+        searchReport(year, month);
+    }//GEN-LAST:event_jButton1ActionPerformed
+    private void searchReport(int year, int month) {
         try {
-            int year = Integer.parseInt((String) this.jcmbYear.getSelectedItem());
-            int month = this.jcmbMonth.getSelectedIndex();
             Calendar cal = Calendar.getInstance();
             cal.set(Calendar.YEAR, year);
             cal.set(Calendar.MONTH, month);
@@ -252,16 +267,23 @@ public class MonthlySaleReport extends javax.swing.JFrame {
                 throw new Exception("No Records");
             }
             DefaultTableModel model = (DefaultTableModel) this.jTable1.getModel();
-            saleList.forEach(c -> {
+            int totalQty = 0;
+            double totalPrice = 0.0;
+            for (Item c : saleList) {
                 Object obj[] = {c.getCode(), c.getName(), c.getQuantity(), c.getPrice()};
                 model.addRow(obj);
-            });
+                totalPrice += c.getPrice();
+                totalQty += c.getQuantity();
+            }
+            Object dummyObj[] = {"", "", "", ""};
+            Object obj[] = {"Total", " - ", totalQty, totalPrice};
+            model.addRow(dummyObj);
+            model.addRow(obj);
             this.jTable1.setModel(model);
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage(), "Error Occurred !", JOptionPane.INFORMATION_MESSAGE);
         }
-    }//GEN-LAST:event_jButton1ActionPerformed
-
+    }
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         PageSwitcher.returnHome(this);
     }//GEN-LAST:event_jButton2ActionPerformed

@@ -11,8 +11,10 @@ import com.turingtraining.pos.service.UserService;
 import com.turingtraining.pos.service.UserServiceImpl;
 import com.turingtraining.pos.util.SystemUtil;
 import java.util.List;
+import java.util.Objects;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -35,6 +37,17 @@ public class UserRegistrationPage extends javax.swing.JFrame {
         List<UserType> userTypes = userSvc.getUserTypes();
         userTypes.forEach(userTypeModel::addElement);
         this.jcbUserType.setModel(userTypeModel);
+        DefaultTableModel tmodel = (DefaultTableModel) this.jtUserList.getModel();
+        List<User> userList = userSvc.getAllUserList();
+        User currentUser = SystemUtil.getCurrentUser();
+        userList.stream()
+                .filter(u -> {
+                    return !Objects.equals(u.getId(), currentUser.getId());
+                })
+                .forEach(c -> {
+                    Object[] obj = {c.getId(), c.getName(), c.getUsername(), c.getUserType()};
+                    tmodel.addRow(obj);
+                });
     }
 
     /**
@@ -62,6 +75,10 @@ public class UserRegistrationPage extends javax.swing.JFrame {
         jtfName = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jtUserList = new javax.swing.JTable();
+        jbtDelete = new javax.swing.JButton();
+        jbthome = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jmiAddNewCashier = new javax.swing.JMenuItem();
@@ -197,15 +214,64 @@ public class UserRegistrationPage extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("User Registration", jPanel1);
 
+        jtUserList.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Id", "Name", "Username", "Type"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Long.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
+        jtUserList.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jtUserListFocusGained(evt);
+            }
+        });
+        jScrollPane1.setViewportView(jtUserList);
+
+        jbtDelete.setText("Delete");
+        jbtDelete.setEnabled(false);
+        jbtDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtDeleteActionPerformed(evt);
+            }
+        });
+
+        jbthome.setText("Back to home");
+        jbthome.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbthomeActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 650, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 650, Short.MAX_VALUE)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addComponent(jbtDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jbthome)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 331, Short.MAX_VALUE)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 290, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jbtDelete)
+                    .addComponent(jbthome))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("User List", jPanel3);
@@ -379,6 +445,30 @@ public class UserRegistrationPage extends javax.swing.JFrame {
         PageSwitcher.returnHome(this);
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    private void jbthomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbthomeActionPerformed
+        PageSwitcher.returnHome(this);
+    }//GEN-LAST:event_jbthomeActionPerformed
+
+    private void jbtDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtDeleteActionPerformed
+        int index = this.jtUserList.getSelectedRow();
+        int choice = JOptionPane.showConfirmDialog(this, "Are you sure to delete ?", "User deletion", JOptionPane.YES_NO_OPTION);
+        if (choice == JOptionPane.YES_OPTION) {
+            Long id = (Long) ((DefaultTableModel) this.jtUserList.getModel()).getValueAt(index, 0);
+            try {
+                userSvc.deleteUserById(id);
+                JOptionPane.showMessageDialog(null, "Successfully deleted!");
+                ((DefaultTableModel) this.jtUserList.getModel()).removeRow(index);
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(null, ex.getMessage(), "User Deletion", JOptionPane.ERROR_MESSAGE);
+            }
+
+        }
+    }//GEN-LAST:event_jbtDeleteActionPerformed
+
+    private void jtUserListFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jtUserListFocusGained
+        this.jbtDelete.setEnabled(true);
+    }//GEN-LAST:event_jtUserListFocusGained
+
     /**
      * @param args the command line arguments
      */
@@ -435,7 +525,10 @@ public class UserRegistrationPage extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JButton jbtDelete;
+    private javax.swing.JButton jbthome;
     private javax.swing.JComboBox<UserType> jcbUserType;
     private javax.swing.JMenuItem jmiAddNewCashier;
     private javax.swing.JMenuItem jmiAddStock;
@@ -446,6 +539,7 @@ public class UserRegistrationPage extends javax.swing.JFrame {
     private javax.swing.JMenu jmiStockReport;
     private javax.swing.JPasswordField jpfPassword;
     private javax.swing.JPasswordField jpfretrypassword;
+    private javax.swing.JTable jtUserList;
     private javax.swing.JTextField jtfName;
     private javax.swing.JTextField jtfUsername;
     // End of variables declaration//GEN-END:variables

@@ -41,4 +41,14 @@ public class UserServiceImpl implements UserService {
         return userDao.getCashierList();
     }
 
+    @Override
+    public List<User> getAllUserList() {
+        return userDao.getAllUserList();
+    }
+
+    @Override
+    public void deleteUserById(Long id) throws Exception {
+        userDao.deleteUserById(id);
+    }
+    
 }

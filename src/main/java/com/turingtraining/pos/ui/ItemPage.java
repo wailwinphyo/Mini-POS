@@ -175,7 +175,7 @@ public class ItemPage extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(25, 25, 25)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 215, Short.MAX_VALUE)
                     .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -184,8 +184,8 @@ public class ItemPage extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jbnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jbnCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
+                        .addComponent(jbnCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 136, Short.MAX_VALUE))
                     .addComponent(jtfCode)
                     .addComponent(jtfPrice)
                     .addComponent(jcbCategory, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -419,28 +419,23 @@ public class ItemPage extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowClosed
 
     private void jbnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbnAddActionPerformed
-        String msg;
         try {
             String name = this.jtfName.getText();
             String code = this.jtfCode.getText();
             Double price = Double.parseDouble(this.jtfPrice.getText());
             Category cat = (Category) this.jcbCategory.getSelectedItem();
-            Item p = new Item(null, name, code, price, cat.getId());
+            Item p = new Item.ItemBuilder().setName(name).setCode(code).setPrice(price).setCategoryId(cat.getId()).build();
             itemService.insertItem(p);
-            msg = "Success! Item Added! \n Add more Item ?";
-        } catch (NumberFormatException e) {
-            msg = "Failed to add Item! \n Add Item again?";
-            Logger.getLogger(Item.class.getName()).log(Level.SEVERE, null, e);
-        }
-        int opt = JOptionPane.showConfirmDialog(this, msg, "Item Insertion", JOptionPane.YES_NO_OPTION);
-        if (opt == JOptionPane.YES_OPTION) {
             this.jtfName.setText("");
             this.jtfCode.setText("");
             this.jtfPrice.setText("");
             this.jcbCategory.setSelectedIndex(0);
-        } else {
-            PageSwitcher.returnHome(this);
+            JOptionPane.showMessageDialog(this, "Success! Item Added!", "Item Insertion", JOptionPane.INFORMATION_MESSAGE);
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Failed to add Item!", "Item Insertion", JOptionPane.ERROR_MESSAGE);
+            Logger.getLogger(Item.class.getName()).log(Level.SEVERE, null, e);
         }
+
     }//GEN-LAST:event_jbnAddActionPerformed
 
     private void jmiAddNewCashierActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiAddNewCashierActionPerformed
