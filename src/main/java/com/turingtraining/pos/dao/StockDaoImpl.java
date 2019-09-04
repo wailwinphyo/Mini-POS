@@ -31,7 +31,7 @@ public class StockDaoImpl implements StockDao {
     public void persistStockTransaction(Stock s) throws Exception {
         Long cashierId = SystemUtil.getCurrentUser().getId();
         try {
-            PreparedStatement st = dao.createStatement("INSERT INTO stock_transactions(item_id, quantity, price, transaction_date, description, cashier_id) VALUES (?, ?, ?, ?, ?, ?)");
+            PreparedStatement st = dao.createStatement("INSERT INTO stock_transactions(item_id, quantity, price, transaction_date, description, cashier_id) VALUES (?, ?, ?, ?, ?, ?)");    
             st.setLong(1, s.getItem_id());
             st.setInt(2, s.getQuantity());
             st.setDouble(3, s.getPrice());

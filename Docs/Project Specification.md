@@ -1,6 +1,6 @@
 # Point of sale Project Specification
 
-## System Spec
+## Specification
 1. User registration with user type, Cashier, System Admin.
 2. User login.
 3. Item Category setup, For example, food, drink, medicine etc.

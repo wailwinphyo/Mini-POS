@@ -24,7 +24,7 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public void insertItem(Item p) {
+    public void insertItem(Item p) throws Exception {
         itemDao.insertItem(p);
     }
 
@@ -44,7 +44,7 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public void updateItem(Item item) throws Exception{
+    public void updateItem(Item item) throws Exception {
         itemDao.updateItem(item);
     }
 }

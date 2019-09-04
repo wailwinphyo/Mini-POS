@@ -38,6 +38,7 @@ public class UserRegistrationPage extends javax.swing.JFrame {
         userTypes.forEach(userTypeModel::addElement);
         this.jcbUserType.setModel(userTypeModel);
         DefaultTableModel tmodel = (DefaultTableModel) this.jtUserList.getModel();
+        tmodel.setRowCount(0);
         List<User> userList = userSvc.getAllUserList();
         User currentUser = SystemUtil.getCurrentUser();
         userList.stream()
@@ -396,7 +397,7 @@ public class UserRegistrationPage extends javax.swing.JFrame {
             User u = new User().setName(name).setUsername(username).setPassword(pass).setUsertype_id(userType.getId());
             userSvc.registerUser(u);
             JOptionPane.showMessageDialog(null, "Successfully register new user!", "User Registration", JOptionPane.INFORMATION_MESSAGE);
-
+            loadData();
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "Failed to register!" + ex.getMessage(), "User Registration", JOptionPane.ERROR_MESSAGE);
         }

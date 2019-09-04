@@ -16,7 +16,7 @@ public interface ItemDao {
 
     List<Item> getItemList();
 
-    void insertItem(Item p);
+    void insertItem(Item p) throws Exception;
 
     Item getItemDetail(String code);
 

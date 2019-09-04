@@ -69,7 +69,7 @@ public class ItemDaoImpl implements ItemDao {
     }
 
     @Override
-    public void insertItem(Item p) {
+    public void insertItem(Item p) throws Exception{
         try {
             PreparedStatement st = dao.createStatement("INSERT INTO items (name, code, price, category_id) VALUES (?, ?, ?, ?)");
             st.setString(1, p.getName());
@@ -79,6 +79,7 @@ public class ItemDaoImpl implements ItemDao {
             st.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(ItemDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+            throw new Exception(ex.getMessage());
         }
     }
 
@@ -139,7 +140,7 @@ public class ItemDaoImpl implements ItemDao {
                     + "FROM items item "
                     + "INNER JOIN stock_transactions s ON s.item_id = item.id "
                     + "GROUP BY item.id "
-                    + "ORDER BY item.quantity desc");
+                    + "ORDER BY item.quantity asc");
 
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
@@ -170,7 +171,7 @@ public class ItemDaoImpl implements ItemDao {
         }
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args)  throws Exception{
         ItemDao dao = new ItemDaoImpl();
         Item p = new Item.ItemBuilder().setName("Hot Dog 2").setCode("FD-103").setPrice(1000.0).setCategoryId(1L).build();
         dao.insertItem(p);

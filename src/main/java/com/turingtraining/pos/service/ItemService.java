@@ -14,7 +14,7 @@ import java.util.List;
  */
 public interface ItemService {
 
-    void insertItem(Item item);
+    void insertItem(Item item) throws Exception;
     
     List<Item> getItemListByCatId(Long cId);
 

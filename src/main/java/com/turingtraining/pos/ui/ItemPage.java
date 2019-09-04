@@ -19,7 +19,6 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import com.turingtraining.pos.service.ItemService;
 import com.turingtraining.pos.util.SystemUtil;
-import java.awt.HeadlessException;
 import java.util.HashMap;
 import java.util.Map;
 import javax.swing.event.TableModelEvent;
@@ -431,8 +430,8 @@ public class ItemPage extends javax.swing.JFrame {
             this.jtfPrice.setText("");
             this.jcbCategory.setSelectedIndex(0);
             JOptionPane.showMessageDialog(this, "Success! Item Added!", "Item Insertion", JOptionPane.INFORMATION_MESSAGE);
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this, "Failed to add Item!", "Item Insertion", JOptionPane.ERROR_MESSAGE);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Failed to add Item! " + e.getMessage(), "Item Insertion", JOptionPane.ERROR_MESSAGE);
             Logger.getLogger(Item.class.getName()).log(Level.SEVERE, null, e);
         }
 
