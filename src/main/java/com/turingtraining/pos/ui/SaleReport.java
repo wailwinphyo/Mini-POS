@@ -12,6 +12,7 @@ import com.turingtraining.pos.service.StockServiceImpl;
 import com.turingtraining.pos.service.UserService;
 import com.turingtraining.pos.service.UserServiceImpl;
 import com.turingtraining.pos.util.SystemUtil;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
@@ -63,12 +64,14 @@ public class SaleReport extends javax.swing.JFrame {
         jButton2 = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
-        jmiAddNewCashier = new javax.swing.JMenuItem();
         jmiExit = new javax.swing.JMenuItem();
+        jMenu3 = new javax.swing.JMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
-        jmiAddStock = new javax.swing.JMenuItem();
+        jmiAddNewCashier = new javax.swing.JMenuItem();
         jmiProduct = new javax.swing.JMenuItem();
         jmiCategory = new javax.swing.JMenuItem();
+        jmiAddStock = new javax.swing.JMenuItem();
         jmiStockReport = new javax.swing.JMenu();
         jMenuItem4 = new javax.swing.JMenuItem();
         jmiSaleReport = new javax.swing.JMenuItem();
@@ -76,7 +79,6 @@ public class SaleReport extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Mini POS");
-        setPreferredSize(null);
 
         jLabel1.setText("Start Date : ");
 
@@ -163,16 +165,8 @@ public class SaleReport extends javax.swing.JFrame {
             }
         });
 
-        jMenu1.setText("File");
+        jMenu1.setText("File ");
         jMenu1.setMargin(new java.awt.Insets(3, 6, 3, 3));
-
-        jmiAddNewCashier.setText("Add User");
-        jmiAddNewCashier.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jmiAddNewCashierActionPerformed(evt);
-            }
-        });
-        jMenu1.add(jmiAddNewCashier);
 
         jmiExit.setText("Exit");
         jmiExit.addActionListener(new java.awt.event.ActionListener() {
@@ -184,18 +178,30 @@ public class SaleReport extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenu1);
 
-        jMenu2.setText("System Config");
-        jMenu2.setMargin(new java.awt.Insets(3, 6, 3, 3));
+        jMenu3.setText("View");
 
-        jmiAddStock.setText("Add Stock");
-        jmiAddStock.addActionListener(new java.awt.event.ActionListener() {
+        jMenuItem1.setText("Sale Voucher");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jmiAddStockActionPerformed(evt);
+                jMenuItem1ActionPerformed(evt);
             }
         });
-        jMenu2.add(jmiAddStock);
+        jMenu3.add(jMenuItem1);
 
-        jmiProduct.setText("Product");
+        jMenuBar1.add(jMenu3);
+
+        jMenu2.setText("System Preference");
+        jMenu2.setMargin(new java.awt.Insets(3, 6, 3, 3));
+
+        jmiAddNewCashier.setText("User Config");
+        jmiAddNewCashier.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmiAddNewCashierActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jmiAddNewCashier);
+
+        jmiProduct.setText("Product Config");
         jmiProduct.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jmiProductActionPerformed(evt);
@@ -210,6 +216,14 @@ public class SaleReport extends javax.swing.JFrame {
             }
         });
         jMenu2.add(jmiCategory);
+
+        jmiAddStock.setText("Add Stock");
+        jmiAddStock.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmiAddStockActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jmiAddStock);
 
         jMenuBar1.add(jMenu2);
 
@@ -275,15 +289,19 @@ public class SaleReport extends javax.swing.JFrame {
             User cashier = (User) this.jcmbCashiers.getSelectedItem();
             Date startDate = this.jxStartDate.getDate();
             Date endDate = this.jxEndDate.getDate();
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(endDate);
+            cal.add(Calendar.DATE, 1);
+            endDate = cal.getTime();
             if (startDate == null || endDate == null) {
                 throw new Exception("Select Start Date and End Date");
             }
             List<Item> saleList = stockService.getSaleReport(cashier.getId(), startDate.getTime(), endDate.getTime());
-            ((DefaultTableModel)this.jTable1.getModel()).setRowCount(0);
+            ((DefaultTableModel) this.jTable1.getModel()).setRowCount(0);
             DefaultTableModel model = (DefaultTableModel) this.jTable1.getModel();
             int totalQty = 0;
             double totalPrice = 0.0;
-            for(Item c : saleList) {
+            for (Item c : saleList) {
                 Object[] obj = {c.getCode(), c.getName(), c.getQuantity(), c.getPrice()};
                 model.addRow(obj);
                 totalPrice += c.getPrice();
@@ -303,6 +321,14 @@ public class SaleReport extends javax.swing.JFrame {
         PageSwitcher.returnHome(this);
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    private void jmiExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiExitActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_jmiExitActionPerformed
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        PageSwitcher.returnHome(this);
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+
     private void jmiAddNewCashierActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiAddNewCashierActionPerformed
         User u = SystemUtil.getCurrentUser();
         if ("ROLE_ADMIN".equals(u.getUserType())) {
@@ -312,15 +338,6 @@ public class SaleReport extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jmiAddNewCashierActionPerformed
 
-    private void jmiExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiExitActionPerformed
-        this.dispose();
-    }//GEN-LAST:event_jmiExitActionPerformed
-
-    private void jmiAddStockActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiAddStockActionPerformed
-        new StockPage().setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_jmiAddStockActionPerformed
-
     private void jmiProductActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiProductActionPerformed
         PageSwitcher.ItemPage(this);
     }//GEN-LAST:event_jmiProductActionPerformed
@@ -328,6 +345,11 @@ public class SaleReport extends javax.swing.JFrame {
     private void jmiCategoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiCategoryActionPerformed
         PageSwitcher.CategoryPage(this);
     }//GEN-LAST:event_jmiCategoryActionPerformed
+
+    private void jmiAddStockActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiAddStockActionPerformed
+        new StockPage().setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jmiAddStockActionPerformed
 
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
         PageSwitcher.showRemainingStock(this);
@@ -384,7 +406,9 @@ public class SaleReport extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenu jMenu3;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem7;
     private javax.swing.JPanel jPanel1;

@@ -69,12 +69,14 @@ public class StockPage extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
-        jmiAddNewCashier = new javax.swing.JMenuItem();
         jmiExit = new javax.swing.JMenuItem();
+        jMenu3 = new javax.swing.JMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
-        jmiAddStock = new javax.swing.JMenuItem();
+        jmiAddNewCashier = new javax.swing.JMenuItem();
         jmiProduct = new javax.swing.JMenuItem();
         jmiCategory = new javax.swing.JMenuItem();
+        jmiAddStock = new javax.swing.JMenuItem();
         jmiStockReport = new javax.swing.JMenu();
         jMenuItem4 = new javax.swing.JMenuItem();
         jmiSaleReport = new javax.swing.JMenuItem();
@@ -206,16 +208,8 @@ public class StockPage extends javax.swing.JFrame {
 
         jpInsertStockLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jcmbCategory, jlCategory});
 
-        jMenu1.setText("File");
+        jMenu1.setText("File ");
         jMenu1.setMargin(new java.awt.Insets(3, 6, 3, 3));
-
-        jmiAddNewCashier.setText("Add User");
-        jmiAddNewCashier.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jmiAddNewCashierActionPerformed(evt);
-            }
-        });
-        jMenu1.add(jmiAddNewCashier);
 
         jmiExit.setText("Exit");
         jmiExit.addActionListener(new java.awt.event.ActionListener() {
@@ -227,18 +221,30 @@ public class StockPage extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenu1);
 
-        jMenu2.setText("System Config");
-        jMenu2.setMargin(new java.awt.Insets(3, 6, 3, 3));
+        jMenu3.setText("View");
 
-        jmiAddStock.setText("Add Stock");
-        jmiAddStock.addActionListener(new java.awt.event.ActionListener() {
+        jMenuItem1.setText("Sale Voucher");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jmiAddStockActionPerformed(evt);
+                jMenuItem1ActionPerformed(evt);
             }
         });
-        jMenu2.add(jmiAddStock);
+        jMenu3.add(jMenuItem1);
 
-        jmiProduct.setText("Product");
+        jMenuBar1.add(jMenu3);
+
+        jMenu2.setText("System Preference");
+        jMenu2.setMargin(new java.awt.Insets(3, 6, 3, 3));
+
+        jmiAddNewCashier.setText("User Config");
+        jmiAddNewCashier.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmiAddNewCashierActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jmiAddNewCashier);
+
+        jmiProduct.setText("Product Config");
         jmiProduct.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jmiProductActionPerformed(evt);
@@ -253,6 +259,14 @@ public class StockPage extends javax.swing.JFrame {
             }
         });
         jMenu2.add(jmiCategory);
+
+        jmiAddStock.setText("Add Stock");
+        jmiAddStock.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmiAddStockActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jmiAddStock);
 
         jMenuBar1.add(jMenu2);
 
@@ -355,6 +369,14 @@ public class StockPage extends javax.swing.JFrame {
         PageSwitcher.returnHome(this);
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void jmiExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiExitActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_jmiExitActionPerformed
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        PageSwitcher.returnHome(this);
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+
     private void jmiAddNewCashierActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiAddNewCashierActionPerformed
         User u = SystemUtil.getCurrentUser();
         if ("ROLE_ADMIN".equals(u.getUserType())) {
@@ -364,15 +386,6 @@ public class StockPage extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jmiAddNewCashierActionPerformed
 
-    private void jmiExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiExitActionPerformed
-        this.dispose();
-    }//GEN-LAST:event_jmiExitActionPerformed
-
-    private void jmiAddStockActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiAddStockActionPerformed
-        new StockPage().setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_jmiAddStockActionPerformed
-
     private void jmiProductActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiProductActionPerformed
         PageSwitcher.ItemPage(this);
     }//GEN-LAST:event_jmiProductActionPerformed
@@ -380,6 +393,11 @@ public class StockPage extends javax.swing.JFrame {
     private void jmiCategoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiCategoryActionPerformed
         PageSwitcher.CategoryPage(this);
     }//GEN-LAST:event_jmiCategoryActionPerformed
+
+    private void jmiAddStockActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiAddStockActionPerformed
+        new StockPage().setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jmiAddStockActionPerformed
 
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
         PageSwitcher.showRemainingStock(this);
@@ -427,7 +445,9 @@ public class StockPage extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenu jMenu3;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem7;
     private javax.swing.JButton jbtInsertStock;

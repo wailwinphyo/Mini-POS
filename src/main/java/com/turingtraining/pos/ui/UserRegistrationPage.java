@@ -82,12 +82,14 @@ public class UserRegistrationPage extends javax.swing.JFrame {
         jbthome = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
-        jmiAddNewCashier = new javax.swing.JMenuItem();
         jmiExit = new javax.swing.JMenuItem();
+        jMenu3 = new javax.swing.JMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
-        jmiAddStock = new javax.swing.JMenuItem();
+        jmiAddNewCashier = new javax.swing.JMenuItem();
         jmiProduct = new javax.swing.JMenuItem();
         jmiCategory = new javax.swing.JMenuItem();
+        jmiAddStock = new javax.swing.JMenuItem();
         jmiStockReport = new javax.swing.JMenu();
         jMenuItem4 = new javax.swing.JMenuItem();
         jmiSaleReport = new javax.swing.JMenuItem();
@@ -277,16 +279,8 @@ public class UserRegistrationPage extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("User List", jPanel3);
 
-        jMenu1.setText("File");
+        jMenu1.setText("File ");
         jMenu1.setMargin(new java.awt.Insets(3, 6, 3, 3));
-
-        jmiAddNewCashier.setText("Add User");
-        jmiAddNewCashier.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jmiAddNewCashierActionPerformed(evt);
-            }
-        });
-        jMenu1.add(jmiAddNewCashier);
 
         jmiExit.setText("Exit");
         jmiExit.addActionListener(new java.awt.event.ActionListener() {
@@ -298,18 +292,30 @@ public class UserRegistrationPage extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenu1);
 
-        jMenu2.setText("System Config");
-        jMenu2.setMargin(new java.awt.Insets(3, 6, 3, 3));
+        jMenu3.setText("View");
 
-        jmiAddStock.setText("Add Stock");
-        jmiAddStock.addActionListener(new java.awt.event.ActionListener() {
+        jMenuItem1.setText("Sale Voucher");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jmiAddStockActionPerformed(evt);
+                jMenuItem1ActionPerformed(evt);
             }
         });
-        jMenu2.add(jmiAddStock);
+        jMenu3.add(jMenuItem1);
 
-        jmiProduct.setText("Product");
+        jMenuBar1.add(jMenu3);
+
+        jMenu2.setText("System Preference");
+        jMenu2.setMargin(new java.awt.Insets(3, 6, 3, 3));
+
+        jmiAddNewCashier.setText("User Config");
+        jmiAddNewCashier.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmiAddNewCashierActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jmiAddNewCashier);
+
+        jmiProduct.setText("Product Config");
         jmiProduct.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jmiProductActionPerformed(evt);
@@ -324,6 +330,14 @@ public class UserRegistrationPage extends javax.swing.JFrame {
             }
         });
         jMenu2.add(jmiCategory);
+
+        jmiAddStock.setText("Add Stock");
+        jmiAddStock.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmiAddStockActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jmiAddStock);
 
         jMenuBar1.add(jMenu2);
 
@@ -470,6 +484,10 @@ public class UserRegistrationPage extends javax.swing.JFrame {
         this.jbtDelete.setEnabled(true);
     }//GEN-LAST:event_jtUserListFocusGained
 
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        PageSwitcher.returnHome(this);
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -520,7 +538,9 @@ public class UserRegistrationPage extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenu jMenu3;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem7;
     private javax.swing.JPanel jPanel1;
