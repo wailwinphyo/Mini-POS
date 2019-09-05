@@ -1,5 +1,5 @@
 # Mini POS
-    Point of sale project with only basic features.
+Point of sale project with only basic features.
     
 ## Features
 - User Account
