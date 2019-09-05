@@ -1,5 +1,6 @@
 # Mini POS
-
+    Point of sale project with only basic features.
+    
 ## Features
 - User Account
 - Stock handling
@@ -9,7 +10,6 @@
 ## Configuration Steps
 
 ### Configuring DB
-- Create pos_wlp schema in MySQL
 - Restore db_backup.sql file from SQL folder
 - DB connection string, username and password configuration can be edit in config.properties file in project directory
 

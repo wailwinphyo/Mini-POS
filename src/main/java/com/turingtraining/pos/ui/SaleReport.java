@@ -289,13 +289,13 @@ public class SaleReport extends javax.swing.JFrame {
             User cashier = (User) this.jcmbCashiers.getSelectedItem();
             Date startDate = this.jxStartDate.getDate();
             Date endDate = this.jxEndDate.getDate();
+            if (startDate == null || endDate == null) {
+                throw new Exception("Select Start Date and End Date");
+            }
             Calendar cal = Calendar.getInstance();
             cal.setTime(endDate);
             cal.add(Calendar.DATE, 1);
             endDate = cal.getTime();
-            if (startDate == null || endDate == null) {
-                throw new Exception("Select Start Date and End Date");
-            }
             List<Item> saleList = stockService.getSaleReport(cashier.getId(), startDate.getTime(), endDate.getTime());
             ((DefaultTableModel) this.jTable1.getModel()).setRowCount(0);
             DefaultTableModel model = (DefaultTableModel) this.jTable1.getModel();
